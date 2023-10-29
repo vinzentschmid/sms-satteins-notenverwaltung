@@ -1,0 +1,25 @@
+.custom-input-field{
+  display: flex;
+  flex-direction: column;
+  opacity: 1.0;
+  margin-left: 70px;
+  margin-right: 70px;
+  label{
+    font-size: 1em;
+    font-weight: normal;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    color: white;
+  }
+  input{
+    height: 54px;
+    border-radius: 10px;
+    border: 2px solid #348888;
+    font-size: large;
+    padding-left: 10px;
+  }
+  input:focus{
+    outline: adjust-color($color: #348888, $lightness: 20%);
+    border: 2px solid #FA7F08;
+  }
+}

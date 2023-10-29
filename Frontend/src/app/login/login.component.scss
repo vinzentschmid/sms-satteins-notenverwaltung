@@ -1,0 +1,108 @@
+.background{
+  background-color: #348888;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  #leftSide{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    #part1{
+      height: 10%;
+      .logo{
+        margin-left: 35px;
+        margin-top: 35px;
+      }
+    }
+    #part2{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 30%;
+      #welcome_text{
+        margin-left: 10%;
+        h2{
+          color: white;
+          font-weight: 600;
+          font-size: 8em;
+          margin: 0;
+        }
+        h3{
+          color: white;
+          font-weight: 600;
+          font-size: 7em;
+          opacity: 0.5;
+          margin: 0;
+        }
+      }
+    }
+    #part3{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      height: 60%;
+      .walking_man {
+        width: 100%;
+        height: 100%;
+        align-self: flex-end;
+      }
+    }
+  }
+  #rightSide{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    #inputContainer {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      height: 80%;
+      width: 100%;
+      margin-right: 35px;
+      margin-left: 35px;
+
+      .headlineContainer{
+        color: white;
+        margin-top: 70px;
+        margin-left: 70px;
+        height: 15%;
+        h2{
+          margin: 0;
+          font-weight: 600;
+          font-size: 3.125em;
+
+        }
+        p{
+          margin: 0;
+        }
+      }
+      .formContainer{
+        height: 40%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+      }
+      .buttonContainer{
+        height: 35%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        button{
+          margin-left: 70px;
+          margin-right: 70px;
+          height: 54px;
+          border-radius: 10px;
+          border: 2px solid #FA7F08;
+          font-size: large;
+          background-color: #FA7F08;
+          color: white;
+        }
+      }
+
+    }
+
+  }
+
+
+}

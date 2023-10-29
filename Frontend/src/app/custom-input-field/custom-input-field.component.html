@@ -1,0 +1,8 @@
+<div class="custom-input-field">
+  <label [style.color]="isInputFocused ? '#FA7F08' : ''">{{ label }}</label>
+  <input
+    [type]="type"
+    (focus)="onInputFocus()"
+    (blur)="onInputBlur()"
+  >
+</div>
