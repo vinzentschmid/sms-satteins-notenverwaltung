@@ -1,1 +1,24 @@
-<router-outlet></router-outlet>
+<ng-container *ngIf="shouldDisplayNavigation(); else loginComponent">
+  <div class="mainFrame">
+    <nav>
+      <img src="assets/logo_small.svg" class="logo_small" alt="Logo_small_sms_satteins"  />
+      <div class="navigationContainer">
+        <a [routerLink]="'/dashboard'">
+          <img [src]="'assets/icons/house.svg'" alt="House Icon" />
+        </a>
+        <a [routerLink]="'/classes'">
+          <img [src]="'assets/icons/classes.svg'" alt="House Icon" />
+        </a>
+        
+      </div>
+    </nav>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</ng-container>
+
+<ng-template #loginComponent>
+  <app-login></app-login>
+</ng-template>
+
