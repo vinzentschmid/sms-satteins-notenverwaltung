@@ -1,0 +1,50 @@
+.classes-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    .classes-list-per-year{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        width: 100%;
+        margin-left: 35px;
+        h4{
+            font-weight: 500;
+            color: white;
+            font-size: 15px;
+            margin-top: 25px;
+        }
+        .classes{
+            display: flex;
+            .class{
+                height: 100px;
+                width: 100px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 15px;
+                border-radius: 10px; 
+                margin-right: 35px;
+                margin-bottom: 15px;
+                &:hover {
+                    background-color: #FA7F08;
+                    color: #fff;
+                  }
+                h2{
+                    font-weight: 400;
+                    color: #FA7F08;
+                    font-size: 20px;
+                }
+                filter: invert(0);
+                transition: filter 0.2s ease-in-out;
+               
+            }
+            
+            
+        }
+       
+    }
+    
+}
+

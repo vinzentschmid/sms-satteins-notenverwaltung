@@ -11,6 +11,8 @@ import {RouterModule} from "@angular/router";
 import { CommonModule } from '@angular/common';
 import { ClassesComponent } from './classes/classes.component';
 import { ClassesListComponent } from './classes-list/classes-list.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ClassDetailComponent } from './class-detail/class-detail.component';
 
 
 @NgModule({
@@ -21,6 +23,8 @@ import { ClassesListComponent } from './classes-list/classes-list.component';
     DashboardComponent,
     ClassesComponent,
     ClassesListComponent,
+    ProfileComponent,
+    ClassDetailComponent,
   ],
   imports: [
     BrowserModule,

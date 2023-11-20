@@ -1,7 +1,8 @@
 # Projektarbeit
+
 **Entwicklung er Konfigurierbaren Notenverwaltungs-Webanwendung für Lehrer/innen: Usability, Integration, Skalierbarkeit und Bildungseinruchtungsnutzen**
 
-*Projektbetreuer:* Müslüm ATAS
+_Projektbetreuer:_ Müslüm ATAS
 
 ### Was ist geplant ?
 
@@ -48,6 +49,3 @@ Die Motivation hinter diesem Projekt liegt darin, dass die Verwaltung von Schül
 - [ ] Festlegung der zu verwendenen Technologien
 - [ ] Entwicklung Frontend
 - [ ] Entwicklung Backend
-
-
-

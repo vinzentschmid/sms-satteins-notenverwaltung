@@ -1,10 +1,11 @@
 .mainFrame {
     height: 100%;
+    min-height: 100vh;
     display: flex;
     background-color: #348888;
     nav{
         height: 100%;
-        width: 8.20105820105821%;
+        width: 7%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -18,12 +19,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 80%;
+            height: 90vh;
             a{
-                margin-bottom: 1em;
+                margin-bottom: 2em;
                 img{
-                    height: 85%;
-                    width: 85%;
+                    height: 90%;
+                    width: 90%;
                 }
             
             }
@@ -32,9 +33,11 @@
     }
     main{
         height: 100%;
-        width: 91.7989417989418%;
+        width: 93%;
         background-color: white;
         border-radius: 20px 0 0 20px;
+        min-height: 100vh;
+       
     }
 
 }

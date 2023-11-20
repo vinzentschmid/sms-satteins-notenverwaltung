@@ -1,0 +1,12 @@
+<p>class-detail works!</p>
+<div>
+    <h2>{{ class?.name }}</h2>
+    <p>{{ class?.id }}</p>
+    <p>{{ class?.year }}</p>
+
+    <ul>
+        <li *ngFor="let student of students">
+          {{ student.name }} - {{ student.email }}
+        </li>
+      </ul>
+</div>
