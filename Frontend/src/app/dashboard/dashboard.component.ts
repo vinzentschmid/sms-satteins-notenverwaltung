@@ -8,7 +8,7 @@ import { UserService } from 'src/service/service.user';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  currentDay: string = '';
+  currentDay = '';
   users: User[] = [];
   selectedUserId: number | null = null;
   selectedUser: User | null = null;
@@ -28,6 +28,7 @@ export class DashboardComponent implements OnInit {
   }
 
   selectUserById(userId: number) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.selectedUser = this.users.find((user) => user.id === userId)!;
   }
 }

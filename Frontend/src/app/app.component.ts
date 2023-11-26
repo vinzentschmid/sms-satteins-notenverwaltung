@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,7 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 export class AppComponent {
   title = 'Notenverwaltungssystem SMS Satteins';
-  condition: boolean = true; // Define your condition here
+  condition = true;
 
   constructor(private router: Router) {}
 

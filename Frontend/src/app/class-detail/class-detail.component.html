@@ -1,12 +1,30 @@
-<p>class-detail works!</p>
-<div>
-    <h2>{{ class?.name }}</h2>
-    <p>{{ class?.id }}</p>
-    <p>{{ class?.year }}</p>
-
-    <ul>
-        <li *ngFor="let student of students">
-          {{ student.name }} - {{ student.email }}
-        </li>
-      </ul>
+<div id="headlineContainer">
+  <h2>CLASS {{ class?.name }}</h2>
+  <p>Here you can see all class members and add/edit the points for the grade</p>
 </div>
+
+<div id="actionContainer">
+  <button id="semesterSwitch">1. Semester</button>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+    <label class="form-check-label" for="flexSwitchCheckDefault">Edit</label>
+  </div>
+</div>
+<div class="contentContainer">
+  <div class="btn-group dropdownSubject">
+    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Subject
+    </button>
+    <ul class="dropdown-menu" *ngFor="let subject of subjects">
+      <li> {{ subject.name }} </li>
+    </ul>
+  </div>
+  <div class="headerTable">
+    <div>Name</div>
+  </div>
+  <div class="contentTable" *ngFor="let student of students">
+    {{ student.name }} 
+  </div>
+</div>
+
+
