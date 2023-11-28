@@ -1,30 +1,33 @@
 export class Assignment {
   id: number;
-  date: Date;
-  points?: number;
+  creationDate: Date;
+  reachablePoints: number;
+  type: AssignmentType;
+  semster: Semester;
 
-  constructor(id: number, date: Date) {
+  constructor(
+    id: number,
+    creationDate: Date,
+    reachablePoints: number,
+    type: AssignmentType,
+    semster: Semester
+  ) {
     this.id = id;
-    this.date = date;
+    this.creationDate = creationDate;
+    this.reachablePoints = reachablePoints;
+    this.type = type;
+    this.semster = semster;
   }
 }
-export class Test extends Assignment {
-  constructor(id: number, date: Date) {
-    super(id, date);
-  }
+export enum AssignmentType {
+  Test,
+  Check,
+  Homework,
+  Framework,
+  Total,
 }
-export class Check extends Assignment {
-  constructor(id: number, date: Date) {
-    super(id, date);
-  }
-}
-export class Homework extends Assignment {
-  constructor(id: number, date: Date) {
-    super(id, date);
-  }
-}
-export class Framework extends Assignment {
-  constructor(id: number, date: Date) {
-    super(id, date);
-  }
+
+export enum Semester {
+  '1.Semester',
+  '2.Semester',
 }

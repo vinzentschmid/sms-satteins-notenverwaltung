@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { ClassesComponent } from './classes/classes.component';
 import { ClassDetailComponent } from './class-detail/class-detail.component';
 import { ProfileComponent } from './profile/profile.component';
+import { AddAssignmentComponent } from './add-assignment/add-assignment.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'classes', component: ClassesComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'class/:id', component: ClassDetailComponent },
+  { path: 'class/:id/add-assignment', component: AddAssignmentComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 

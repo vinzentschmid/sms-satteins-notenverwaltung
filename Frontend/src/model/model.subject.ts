@@ -1,19 +1,13 @@
-import { Framework, Test, Homework, Check } from './model.assignment';
+import { Assignment } from './model.assignment';
 
 export class Subject {
   id: number;
   name: string;
-  tests: Test[];
-  frameworks: Framework[];
-  homeworks: Homework[];
-  checks: Check[];
+  assignments: Assignment[];
 
-  constructor(id: number, name: string) {
+  constructor(id: number, name: string, assignments: Assignment[]) {
     this.id = id;
     this.name = name;
-    this.tests = [];
-    this.frameworks = [];
-    this.homeworks = [];
-    this.checks = [];
+    this.assignments = assignments;
   }
 }

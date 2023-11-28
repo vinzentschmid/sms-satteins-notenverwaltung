@@ -4,21 +4,24 @@
 </div>
 
 <div id="actionContainer">
-  <button id="semesterSwitch">1. Semester</button>
+  <button (click)="toggleSemester()" id="semesterSwitch"> {{ semesters[currentSemester]  }}</button>
   <div class="form-check form-switch">
     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
     <label class="form-check-label" for="flexSwitchCheckDefault">Edit</label>
   </div>
 </div>
 <div class="contentContainer">
-  <div class="btn-group dropdownSubject">
-    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      Subject
-    </button>
-    <ul class="dropdown-menu" *ngFor="let subject of subjects">
-      <li> {{ subject.name }} </li>
-    </ul>
+  <div class="actionContainer">
+      <ng-select class="custom" [(ngModel)]="selectedSubject">
+        <ng-option *ngFor="let subject of subjects" [value]="subject.id">{{ subject.name }}</ng-option>
+      </ng-select>
+    <button  routerLink="/class/{{ class?.id }}/add-assignment" id="addAssignment"> Add Assignment</button>
   </div>
+  <nav>
+      <div *ngFor="let assignmentType of assignmentTypes">
+        {{ assignmentType }}
+      </div>
+  </nav>
   <div class="headerTable">
     <div>Name</div>
   </div>

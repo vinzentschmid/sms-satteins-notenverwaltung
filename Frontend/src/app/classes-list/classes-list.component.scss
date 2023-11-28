@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: flex-start;
     width: 100%;
+    overflow-x: hidden;
     .classes-list-per-year{
         display: flex;
         flex-direction: column;
@@ -31,11 +32,18 @@
                     background-color: #FA7F08;
                     color: #fff;
                   }
-                h2{
-                    font-weight: 400;
-                    color: #FA7F08;
-                    font-size: 20px;
+                a{
+                    text-decoration: none;
+                    text-align: center;
+                    h2{
+                        font-weight: 400;
+                        color: #FA7F08;
+                        font-size: 20px;
+                        text-align: center;
+                        margin: 0;
+                    }
                 }
+               
                 filter: invert(0);
                 transition: filter 0.2s ease-in-out;
                
