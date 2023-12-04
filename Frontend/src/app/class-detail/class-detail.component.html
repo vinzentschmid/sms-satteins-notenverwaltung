@@ -15,8 +15,8 @@
       <ng-select class="custom" [(ngModel)]="selectedSubject" (change)="onSubjectChange()">
         <ng-option *ngFor="let subject of subjects" [value]="subject.id">{{ subject.name }}</ng-option>
       </ng-select>
-    <button  routerLink="/class/{{ class?.id }}/add-assignment" id="addAssignment"> Add Assignment</button>
-  </div>
+      <button [routerLink]="['/class', class?.id, selectedSubject, 'add-assignment']" id="addAssignment">Add Assignment</button>
+    </div>
   <nav>
     <div class="assignmentTypes" *ngFor="let assignmentType of assignmentTypes | keyvalue">
       <button 

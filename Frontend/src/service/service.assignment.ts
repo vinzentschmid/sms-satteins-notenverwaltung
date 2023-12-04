@@ -39,7 +39,13 @@ export class AssignmentService {
     return assignments;
   }
 
-  addAssignment(newAssignment: Assignment): void {
-    this.assignments.push(newAssignment);
+  addAssignment(newAssignment: Assignment, subjectId: number): void {
+    const subject = this.subjects.find((s) => s.id === subjectId);
+
+    if (subject) {
+      subject.assignments.push(newAssignment);
+    } else {
+      console.error('Subject not found!');
+    }
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
   Assignment,
   AssignmentType,
@@ -20,13 +21,25 @@ export class AddAssignmentComponent {
     semster: Semester['1.Semester'],
   };
 
+  subjectId!: number;
+
   assignmentTypes = Object.values(AssignmentType);
   semesters = Object.values(Semester);
 
-  constructor(private assignmentService: AssignmentService) {}
+  constructor(
+    private assignmentService: AssignmentService,
+    private route: ActivatedRoute
+  ) {}
+
+  onInit(): void {
+    this.route.params.subscribe((params) => {
+      // Retrieve the subject_id parameter from the route
+      this.subjectId = +params['subject_id'];
+    });
+  }
 
   onSubmit(): void {
-    this.assignmentService.addAssignment(this.newAssignment);
+    this.assignmentService.addAssignment(this.newAssignment, this.subjectId);
     // You can reset the form or perform any other actions after adding the assignment.
   }
 }

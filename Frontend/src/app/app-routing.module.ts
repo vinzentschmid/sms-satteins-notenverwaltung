@@ -13,7 +13,10 @@ const routes: Routes = [
   { path: 'classes', component: ClassesComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'class/:id', component: ClassDetailComponent },
-  { path: 'class/:id/add-assignment', component: AddAssignmentComponent },
+  {
+    path: 'class/:id/:subject_id/add-assignment',
+    component: AddAssignmentComponent,
+  },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 

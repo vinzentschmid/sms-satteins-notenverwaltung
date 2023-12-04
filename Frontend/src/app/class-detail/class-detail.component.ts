@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Class } from 'src/model/model.class';
 import { User } from 'src/model/model.user';
 import { Subject } from 'src/model/model.subject';
@@ -28,7 +28,8 @@ export class ClassDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private subjectService: SubjectService,
-    private assignmentService: AssignmentService
+    private assignmentService: AssignmentService,
+    private router: Router
   ) {}
 
   assignmentTypesFilter = Object.values(AssignmentType).filter(
