@@ -132,49 +132,53 @@
         flex-direction: row;
         gap: 35px;
         margin-left: 35px;
-        margin-top: 20px;
-        color: #fff;
-        div{
-            &:hover {
-                text-decoration: underline;
-                cursor: pointer;
+        .assignmentTypes{
+            button{
+                border-radius: 10px;
+                border: none;
+                background-color: rgba(255, 255, 255, 0);
+                color: #fff;
+                font-size: 15px;
+                padding: 5px;
+                padding: 0;
+               
             }
-            &:active {
-                text-decoration: underline;
-                cursor: pointer;
-            }
+           
         }
-        
     }
-    .headerTable{
+    .table{
+        overflow-x: auto;
         margin-top: 35px;
         margin-left: 35px;
         margin-right: 35px;
-        background-color: #fff;
-        border-radius: 10px;
-        height: 5vh;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-left: 35px;
-        opacity: 0.6;
-        div{
-            opacity: 1;
-            color: #348888;
+        height: 100%;
+        .headerTable{
+          
+            background-color: #fff;
+            border-radius: 10px;
+            height: 5vh;
+            display: flex;
+            align-items: center;
+            gap: 200px;
+            padding-left: 35px;
+            opacity: 0.6;
+            div{
+                opacity: 1;
+                color: #348888;
+            }
+        }
+        .contentTable{
+            margin-top: 10px;
+            background-color: rgba(255, 255, 255, 0.5); /* White background with 0.5 opacity */
+            height: 4.5vh;
+            display: flex;
+            align-items: center;
+            gap: 200px;
+            padding-left: 35px;
+            border-radius: 10px;
+            color: #fff;
         }
     }
-    .contentTable{
-        margin-left: 35px;
-        margin-right: 35px;
-        margin-top: 10px;
-        background-color: rgba(255, 255, 255, 0.5); /* White background with 0.5 opacity */
-        height: 4.5vh;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-left: 35px;
-        border-radius: 10px;
-        color: #fff;
-    }
+    
     
 }

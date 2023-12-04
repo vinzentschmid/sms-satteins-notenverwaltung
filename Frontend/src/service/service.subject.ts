@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { mockSubject1, mockSubject2 } from 'src/mock/mock.subjects';
+import { mockClass, mockClass1 } from 'src/mock/mock.class';
+import { Class } from 'src/model/model.class';
 import { Subject } from 'src/model/model.subject';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SubjectService {
-  subjects: Subject[] = [mockSubject1, mockSubject2];
+  classes: Class[] = [mockClass, mockClass1];
 
-  getAllSubjects(): Observable<Subject[]> {
-    return of(this.subjects);
+  getSubjectsByClassId(classId: number): Observable<Subject[]> {
+    const foundClass = this.classes.find((cls) => cls.id === classId);
+    if (foundClass) {
+      return of(foundClass.subjects);
+    } else {
+      return of([]);
+    }
   }
 }

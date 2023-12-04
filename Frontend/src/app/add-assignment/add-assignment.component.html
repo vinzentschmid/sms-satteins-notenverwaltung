@@ -1,1 +1,19 @@
-<p>add-assignment works!</p>
+<form (ngSubmit)="onSubmit()">
+    <label for="type">Type:</label>
+    <select id="type" [(ngModel)]="newAssignment.type" name="type">
+      <option *ngFor="let type of assignmentTypes" [value]="type">{{ type }}</option>
+    </select>
+
+    <label for="semester">Semester:</label>
+    <select id="semester" [(ngModel)]="newAssignment.semster" name="semester">
+      <option *ngFor="let sem of semesters" [value]="sem">{{ sem }}</option>
+    </select>
+
+    <label for="creationDate">Creation Date:</label>
+    <input type="date" id="creationDate" [(ngModel)]="newAssignment.creationDate" name="creationDate">
+
+    <label for="reachablePoints">Reachable Points:</label>
+    <input type="number" id="reachablePoints" [(ngModel)]="newAssignment.reachablePoints" name="reachablePoints">
+
+    <button type="submit">Add Assignment</button>
+  </form>
