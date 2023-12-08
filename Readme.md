@@ -43,9 +43,9 @@ Die Motivation hinter diesem Projekt liegt darin, dass die Verwaltung von Schül
 - [x] Anpassung der besprochenen Punkte vom Prototyp
 - [x] 1. Prototyp fertigstellen
 - [x] Gespräch mit Betreuer, ob der Prototyp in Ordnung ist
-- [ ] Andere Personen den Prototypen testen lassen, um eine andere Blickweise zu bekommen
-- [ ] Anpassung des Prototyps
+- [x] Andere Personen den Prototypen testen lassen, um eine andere Blickweise zu bekommen
+- [x] Anpassung des Prototyps
 - [ ] Erstellung des Datenbankschemas
-- [ ] Festlegung der zu verwendenen Technologien
+- [x] Festlegung der zu verwendenen Technologien
 - [ ] Entwicklung Frontend
 - [ ] Entwicklung Backend
