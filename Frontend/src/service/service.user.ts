@@ -13,15 +13,6 @@ export class UserService {
     return of(this.users);
   }
 
-  getUserById(id: number): Observable<User | null> {
-    const user = this.users.find((user) => user.id === id);
-    if (user) {
-      return of(user); // Return the found user
-    } else {
-      return of(null); // Return null if user doesn't exist
-    }
-  }
-
   getStudentsByClassId(classId: number): Observable<User[]> {
     const students = this.users.filter((user) => {
       if (user.role === userRole.Student) {
