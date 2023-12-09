@@ -6,3 +6,9 @@ export const mockStudent1: Student = {
   name: 'Max Musterschüler',
   classObject: mockClass,
 };
+
+export const mockStudent2: Student = {
+  id: 2,
+  name: 'Max ASDF',
+  classObject: mockClass,
+};

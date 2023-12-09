@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Class } from 'src/model/model.class';
 import { Subject } from 'src/model/model.subject';
 import { ClassService } from 'src/service/service.class';
@@ -9,6 +9,7 @@ import { Semester } from 'src/model/model.assignment';
 import { AssignmentService } from 'src/service/service.assignment';
 import { Student } from 'src/model/model.student';
 import { StudentService } from 'src/service/service.student';
+import { StudentAssigmentPointsService } from 'src/service/service.studentassigmentpoints';
 
 @Component({
   selector: 'app-class-detail',
@@ -21,6 +22,7 @@ export class ClassDetailComponent implements OnInit {
   subjects: Subject[] = [];
   selectedSubject!: number;
   assignments: Assignment[] = [];
+  isEditEnabled = false;
   private classId: number | undefined;
 
   constructor(
@@ -29,7 +31,7 @@ export class ClassDetailComponent implements OnInit {
     private subjectService: SubjectService,
     private assignmentService: AssignmentService,
     private studentService: StudentService,
-    private router: Router
+    private studentAssignmentPointsService: StudentAssigmentPointsService
   ) {}
 
   assignmentTypesFilter = Object.values(AssignmentType).filter(
@@ -137,5 +139,13 @@ export class ClassDetailComponent implements OnInit {
     this.studentService.getStudentsByClassId(classId).then((students) => {
       this.students = students;
     });
+  }
+
+  addPointsForStudentAndAssignment(
+    student: Student,
+    assignment: Assignment,
+    points: number
+  ): void {
+    this.studentAssignmentPointsService.addPoints(student, assignment, points);
   }
 }

@@ -6,7 +6,7 @@
 <div id="actionContainer">
   <button (click)="toggleSemester()" id="semesterSwitch"> {{ semesters[currentSemester]  }}</button>
   <div class="form-check form-switch">
-    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+    <input class="form-check-input" type="checkbox" [(ngModel)]="isEditEnabled" id="flexSwitchCheckDefault">
     <label class="form-check-label" for="flexSwitchCheckDefault">Edit</label>
   </div>
 </div>
@@ -19,8 +19,8 @@
     </div>
   <nav>
     <div class="assignmentTypes" *ngFor="let assignmentType of assignmentTypes | keyvalue">
-      <button 
-        (click)="toggleAssignmentType(assignmentType.key)" 
+      <button
+        (click)="toggleAssignmentType(assignmentType.key)"
         [ngStyle]="{ 'text-decoration': currentAssignment.toString() === assignmentType.key.toString() ? 'underline' : 'none' }"
 
         >
@@ -34,16 +34,22 @@
       <div *ngFor="let assignment of assignments">{{ assignment.creationDate | date:'dd.MM.yy'}}</div>
     </div>
     <div class="contentTable" >
-      <div  *ngFor="let student of students">
-        {{ student.name }} 
+      <div class="studentColumn" *ngFor="let student of students">
+        <div class="studentName">{{ student.name }}</div>
+        <div  class="assignments" *ngFor="let assignment of assignments">
+          <div class="noEditMode" *ngIf="!isEditEnabled; else editModeContent">
+            <div>0</div>
+          </div>
+          <ng-template #editModeContent>
+            <input type="number"   (keyup)="addPointsForStudentAndAssignment(student, assignment, input.valueAsNumber)" #input name="studentPoint" >
+          </ng-template>
+          / {{ assignment.reachablePoints }}
+
+        </div>
       </div>
-      <div *ngFor="let assignment of assignments">{{ assignment.reachablePoints }}</div>
-  
-     
-  
     </div>
   </div>
-  
+
 </div>
 
 
