@@ -1,7 +1,6 @@
 using BackendRestAPI.Domain.Models;
-using BackendRestAPI.Models;
 
-namespace BackendRestAPI.Services;
+namespace BackendRestAPI.Domain.Services;
 
 public interface ITeacherService
 {

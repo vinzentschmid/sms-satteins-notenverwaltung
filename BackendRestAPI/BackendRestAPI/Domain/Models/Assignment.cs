@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BackendRestAPI.Domain.Models;
 
 namespace BackendRestAPI.Models;
 

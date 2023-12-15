@@ -1,5 +1,6 @@
 using BackendRestAPI.Domain.Models;
 using BackendRestAPI.Domain.Repositories;
+using BackendRestAPI.Domain.Services;
 using BackendRestAPI.Models;
 
 namespace BackendRestAPI.Services;

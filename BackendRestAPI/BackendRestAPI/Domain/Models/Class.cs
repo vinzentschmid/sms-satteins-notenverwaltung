@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BackendRestAPI.Models;
 
-namespace BackendRestAPI.Models;
+namespace BackendRestAPI.Domain.Models;
 
 public partial class Class
 {

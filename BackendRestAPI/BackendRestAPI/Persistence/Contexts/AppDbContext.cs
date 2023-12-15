@@ -7,6 +7,9 @@ namespace BackendRestAPI.Persistence.Contexts;
 public class AppDbContext : DbContext
 {
     public DbSet<Teacher> Teachers { get; set; }
+    public DbSet<Student> Students { get; set; }
+    
+    public DbSet<Class> Classes { get; set; }
     public AppDbContext()
     {
     }
