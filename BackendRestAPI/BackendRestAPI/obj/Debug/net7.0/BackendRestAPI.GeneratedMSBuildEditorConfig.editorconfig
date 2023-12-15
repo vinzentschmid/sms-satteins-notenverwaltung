@@ -15,23 +15,3 @@ build_property.SupportLocalizedComponentNames =
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = /Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI
 build_property._RazorSourceGeneratorDebug = 
-
-[/Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/Views/Teacher/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVhY2hlci9DcmVhdGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/Views/Teacher/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVhY2hlci9EZWxldGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/Views/Teacher/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVhY2hlci9EZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/Views/Teacher/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVhY2hlci9FZGl0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/Views/Teacher/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVhY2hlci9JbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
