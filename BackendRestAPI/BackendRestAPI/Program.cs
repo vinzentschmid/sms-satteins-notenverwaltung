@@ -7,6 +7,7 @@ using BackendRestAPI.Persistence.Contexts;
 using BackendRestAPI.Persistence.Repositories;
 using BackendRestAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -15,7 +16,11 @@ builder.Services.AddControllers();
 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql("Host=localhost;Port=5432;Database=postgres;User ID=postgres;Password=password;"));
+{
+    options.UseLazyLoadingProxies();
+    options.UseNpgsql("Host=localhost;Port=5432;Database=postgres;User ID=postgres;Password=password;");
+});
+  
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();

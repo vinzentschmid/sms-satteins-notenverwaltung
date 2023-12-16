@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using AutoMapper;
 using BackendRestAPI.Domain.Models;
 using BackendRestAPI.Domain.Services;
@@ -25,6 +27,7 @@ public class ClassesController : ControllerBase
     {
         var classes = await _classService.ListAsync();
         var resources = _mapper.Map<IEnumerable<Class>, IEnumerable<ClassResource>>(classes);
+        
         return resources;
     }
     
@@ -33,10 +36,9 @@ public class ClassesController : ControllerBase
     public async Task<ActionResult<ClassResource>> GetClass(int id)
     {
         var classObject = await _classService.FindOneAsync(id);
-        // if (favor == null)
-        //     return BadRequest("Favor not found!");
-        var resource = _mapper.Map<Class, ClassResource>(classObject.Class);
-        return resource;
+        return classObject.Class != null
+            ? _mapper.Map<Class, ClassResource>(classObject.Class)
+            : BadRequest("Class not found");
     } 
 
     

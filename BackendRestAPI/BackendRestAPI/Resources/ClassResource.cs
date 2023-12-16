@@ -3,10 +3,19 @@ using BackendRestAPI.Models;
 
 namespace BackendRestAPI.Resources;
 
-public class ClassResource
+public sealed class ClassResource
 {
+    public ClassResource(string name)
+    {
+        Name = name;
+    }
+
     public int PkClass { get; set; }
 
     public string Name { get; set; }
     
+    public ICollection<StudentResource> Students { get; set; } = new List<StudentResource>();
+    
+    
+
 }

@@ -11,7 +11,6 @@ public class ModelToResourceProfile : Profile
     {
         CreateMap<Teacher, TeacherResource>();
         CreateMap<Student, StudentResource>();
-        CreateMap<Class, ClassResource>()
-        ;
+        CreateMap<Class, ClassResource>().ForMember(dest => dest.Students, opt => opt.MapFrom(src => src.Students.ToList()));
     }
 }

@@ -279,3 +279,5 @@
 /Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/bin/Debug/net7.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/bin/Debug/net7.0/Swashbuckle.AspNetCore.SwaggerUI.dll
 /Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/obj/Debug/net7.0/BackendRestAPI.MvcApplicationPartsAssemblyInfo.cs
+/Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/bin/Debug/net7.0/Castle.Core.dll
+/Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Proxies.dll

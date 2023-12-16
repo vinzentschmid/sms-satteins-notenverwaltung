@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ioSGOwmAcchK9MZob/Au5IU5gUNMsTLnGHWxWRQQP12hPK6dob0oMQsx0DLL/XPe3Fc7TNlOaG7d/6ZOMY1ybQ==",
+  "dgSpecHash": "k2CHclWLhzP2gcbkkPQID6o6KNtUlp6DhUQ/NC+at4+GXssh5x/XoY/bFzfbwHSc9/urxR4hKlPyVhWX9otgFg==",
   "success": true,
   "projectFilePath": "/Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/BackendRestAPI.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "/Users/vinzentschmid/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/azure.core/1.24.0/azure.core.1.24.0.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/azure.identity/1.6.0/azure.identity.1.6.0.nupkg.sha512",
+    "/Users/vinzentschmid/.nuget/packages/castle.core/5.1.0/castle.core.5.1.0.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/microsoft.aspnetcore.razor.language/6.0.11/microsoft.aspnetcore.razor.language.6.0.11.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
@@ -38,6 +39,7 @@
     "/Users/vinzentschmid/.nuget/packages/microsoft.entityframeworkcore.abstractions/7.0.5/microsoft.entityframeworkcore.abstractions.7.0.5.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/microsoft.entityframeworkcore.analyzers/7.0.5/microsoft.entityframeworkcore.analyzers.7.0.5.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/microsoft.entityframeworkcore.design/7.0.5/microsoft.entityframeworkcore.design.7.0.5.nupkg.sha512",
+    "/Users/vinzentschmid/.nuget/packages/microsoft.entityframeworkcore.proxies/7.0.5/microsoft.entityframeworkcore.proxies.7.0.5.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/microsoft.entityframeworkcore.relational/7.0.5/microsoft.entityframeworkcore.relational.7.0.5.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/microsoft.entityframeworkcore.sqlserver/7.0.5/microsoft.entityframeworkcore.sqlserver.7.0.5.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/microsoft.entityframeworkcore.tools/7.0.5/microsoft.entityframeworkcore.tools.7.0.5.nupkg.sha512",
@@ -128,6 +130,7 @@
     "/Users/vinzentschmid/.nuget/packages/system.data.datasetextensions/4.5.0/system.data.datasetextensions.4.5.0.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/system.diagnostics.debug/4.3.0/system.diagnostics.debug.4.3.0.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/system.diagnostics.diagnosticsource/5.0.0/system.diagnostics.diagnosticsource.5.0.0.nupkg.sha512",
+    "/Users/vinzentschmid/.nuget/packages/system.diagnostics.eventlog/6.0.0/system.diagnostics.eventlog.6.0.0.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/system.diagnostics.tools/4.3.0/system.diagnostics.tools.4.3.0.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/system.diagnostics.tracing/4.3.0/system.diagnostics.tracing.4.3.0.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/system.drawing.common/6.0.0/system.drawing.common.6.0.0.nupkg.sha512",
