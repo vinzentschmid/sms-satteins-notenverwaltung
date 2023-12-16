@@ -28,5 +28,14 @@ namespace BackendRestAPI.Controllers
             return resources;
         }
         
+        // GET: api/Teachers/1
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TeacherResource>> GetTeacher(int id)
+        {
+            var teacher = await _teacherService.FindOneAsync(id);
+            return teacher.Teacher != null
+                ? _mapper.Map<Teacher, TeacherResource>(teacher.Teacher)
+                : BadRequest("Class not found");
+        } 
     }
 }

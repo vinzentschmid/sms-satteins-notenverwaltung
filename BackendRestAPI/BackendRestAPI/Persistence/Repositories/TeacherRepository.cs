@@ -16,4 +16,9 @@ public class TeacherRepository : BaseRepository, ITeacherRepository
     {
         return await _context.Teachers.ToListAsync();
     }
+
+    public async Task<Teacher> FindByIdAsync(int id)
+    {
+        return await _context.Teachers.FindAsync(id);
+    }
 }

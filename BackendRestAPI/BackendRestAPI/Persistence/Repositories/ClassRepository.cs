@@ -14,13 +14,14 @@ public class ClassRepository : BaseRepository, IClassRepository
     
     public async Task<IEnumerable<Class>> ListAsync()
     {
-        return await _context.Classes.Include(c => c.Students).ToListAsync();
+        return await _context.Classes.Include(c => c.Students).Include(c => c.Subjects).ToListAsync();
     }
 
     public async Task<Class> FindByIdAsync(int id)
     {
         return await _context.Classes
             .Include(c => c.Students)
+            .Include(c => c.Subjects)
             .FirstOrDefaultAsync(c => c.PkClass == id) ?? throw new InvalidOperationException();
     }
     

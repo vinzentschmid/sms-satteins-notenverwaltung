@@ -16,6 +16,7 @@ public sealed class ClassResource
     
     public ICollection<StudentResource> Students { get; set; } = new List<StudentResource>();
     
-    
+    public  ICollection<SubjectResource> Subjects { get; set; } = new List<SubjectResource>();
+
 
 }
