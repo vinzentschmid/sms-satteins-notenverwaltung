@@ -12,6 +12,9 @@ public class AppDbContext : DbContext
     public DbSet<Class> Classes { get; set; }
     
     public DbSet<Subject> Subjects { get; set; }
+    
+    public DbSet<Assignment> Assignments { get; set; }
+    
     public AppDbContext()
     {
     }
@@ -24,6 +27,7 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Assignment>(entity =>
         {
             entity.HasKey(e => e.AssignmentPk).HasName("assignment_pk");
@@ -36,7 +40,9 @@ public class AppDbContext : DbContext
             entity.Property(e => e.CreationDate).HasColumnName("creation_date");
             entity.Property(e => e.ReachablePoints).HasColumnName("reachable_points");
             entity.Property(e => e.SubjectFk).HasColumnName("subject_fk");
-
+            entity.Property(e => e.AssignmentType).HasConversion<string>().
+            HasColumnName("assignment_type");
+            
             entity.HasOne(d => d.SubjectFkNavigation).WithMany(p => p.Assignments)
                 .HasForeignKey(d => d.SubjectFk)
                 .HasConstraintName("subject_fk");

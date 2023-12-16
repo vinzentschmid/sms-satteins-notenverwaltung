@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using BackendRestAPI.Domain.Models;
+﻿using System.ComponentModel;
+using BackendRestAPI.Models;
+using NpgsqlTypes;
 
-namespace BackendRestAPI.Models;
+namespace BackendRestAPI.Domain.Models;
 
 public partial class Assignment
 {
@@ -13,8 +13,23 @@ public partial class Assignment
     public int ReachablePoints { get; set; }
 
     public int? SubjectFk { get; set; }
+    
+    public EAssignmentType AssignmentType { get; set; }
 
     public virtual ICollection<StudentAssignment> StudentAssignments { get; set; } = new List<StudentAssignment>();
 
     public virtual Subject? SubjectFkNavigation { get; set; }
 }
+
+public enum EAssignmentType
+{
+    [Description("Test")]
+    Test,
+    [Description("Homework")]
+    Homework,
+    [Description("Check")]
+    Check,
+    [Description("Framework")]
+    Framework
+}
+

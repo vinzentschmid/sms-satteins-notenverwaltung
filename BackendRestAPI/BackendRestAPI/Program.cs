@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using AutoMapper;
+using BackendRestAPI.Domain.Models;
 using BackendRestAPI.Domain.Repositories;
 using BackendRestAPI.Domain.Services;
 using BackendRestAPI.Mapper;
@@ -9,6 +10,7 @@ using BackendRestAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure.Internal;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,10 +19,9 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseLazyLoadingProxies();
     options.UseNpgsql("Host=localhost;Port=5432;Database=postgres;User ID=postgres;Password=password;");
 });
-  
+
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
@@ -29,6 +30,9 @@ builder.Services.AddScoped<IClassRepository, ClassRepository>();
 builder.Services.AddScoped<IClassService, ClassService>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
+builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
+builder.Services.AddScoped<IAssignmentService, AssignmentService>();
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddSwaggerGen(c =>
 {
