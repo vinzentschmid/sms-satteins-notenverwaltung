@@ -32,6 +32,8 @@ builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
 builder.Services.AddScoped<IAssignmentService, AssignmentService>();
+builder.Services.AddScoped<IStudentAssignmentRepository, StudentAssignmentRepository>();
+builder.Services.AddScoped<IStudentAssignmentService, StudentAssignmentService>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddSwaggerGen(c =>

@@ -11,6 +11,8 @@ public class SubjectResource
 
     public int ClassFk { get; set; }
     
+    public  ICollection<AssignmentResource> Assignments { get; set; } = new List<AssignmentResource>();
+
     [JsonIgnore]
     public virtual Class? ClassFkNavigation { get; set; }
 }

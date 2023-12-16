@@ -13,6 +13,6 @@ public class SubjectRepository : BaseRepository, ISubjectRepository
 
     public async Task<IEnumerable<Subject>> ListAsync()
     {
-        return await _context.Subjects.ToListAsync();
+        return await _context.Subjects.Include(c => c.Assignments).ToListAsync();
     }
 }

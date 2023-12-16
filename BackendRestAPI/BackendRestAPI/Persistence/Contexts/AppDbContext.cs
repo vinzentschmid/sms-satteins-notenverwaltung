@@ -15,6 +15,8 @@ public class AppDbContext : DbContext
     
     public DbSet<Assignment> Assignments { get; set; }
     
+    public DbSet<StudentAssignment> StudentsAssignments { get; set; }
+    
     public AppDbContext()
     {
     }
