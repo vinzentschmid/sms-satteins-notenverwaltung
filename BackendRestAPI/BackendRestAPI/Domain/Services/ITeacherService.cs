@@ -7,4 +7,6 @@ public interface ITeacherService
 {
     Task<IEnumerable<Teacher>> ListAsync();
     Task<TeacherResponse> FindOneAsync(int id);
+
+    Task<TeacherResponse> UpdateAsync(int id, Teacher teacher);
 }

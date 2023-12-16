@@ -12,5 +12,12 @@ public class TeacherResponse : BaseResponse
     }
     
     public TeacherResponse(Teacher teacher) : this(true, string.Empty, teacher){}
-
+    
+    public TeacherResponse(string message) : this(false, message, null)
+    {
+    }
+    
+    public TeacherResponse(bool success, string message) : this(success, message, null)
+    {
+    }
 }

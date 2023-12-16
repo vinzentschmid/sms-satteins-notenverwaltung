@@ -1,6 +1,7 @@
 using AutoMapper;
 using BackendRestAPI.Domain.Models;
 using BackendRestAPI.Domain.Services;
+using BackendRestAPI.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using BackendRestAPI.Resources;
 using BackendRestAPI.Services;
@@ -37,5 +38,22 @@ namespace BackendRestAPI.Controllers
                 ? _mapper.Map<Teacher, TeacherResource>(teacher.Teacher)
                 : BadRequest("Class not found");
         } 
+        
+        // PUT: api/Teacher/1
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(int id, [FromBody] SaveTeacherResource resource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.GetErrorMessages());
+
+            var teacher = _mapper.Map<SaveTeacherResource, Teacher>(resource);
+            var result = await _teacherService.UpdateAsync(id, teacher);
+
+            if (!result.Success)
+                return BadRequest("Update Teacher went wrong");
+
+            var categoryResource = _mapper.Map<Teacher, TeacherResource>(result.Teacher);
+            return Ok(categoryResource);
+        }
     }
 }

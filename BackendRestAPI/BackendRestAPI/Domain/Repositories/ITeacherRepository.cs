@@ -9,4 +9,5 @@ public interface ITeacherRepository
     
     Task<Teacher> FindByIdAsync(int id);
 
+    void Update(Teacher teacher);
 }

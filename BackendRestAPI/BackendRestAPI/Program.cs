@@ -29,7 +29,7 @@ builder.Services.AddScoped<IClassRepository, ClassRepository>();
 builder.Services.AddScoped<IClassService, ClassService>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
-
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -45,6 +45,7 @@ builder.Services.AddSwaggerGen(c =>
 var mappingConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new ModelToResourceProfile());
+    mc.AddProfile(new ResourceToModelProfile());
 });
 
 var mapper = mappingConfig.CreateMapper();

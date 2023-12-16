@@ -21,4 +21,9 @@ public class TeacherRepository : BaseRepository, ITeacherRepository
     {
         return await _context.Teachers.FindAsync(id);
     }
+
+    public void Update(Teacher teacher)
+    {
+        _context.Teachers.Update(teacher);
+    }
 }
