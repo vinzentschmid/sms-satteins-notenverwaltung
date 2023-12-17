@@ -30,7 +30,8 @@ jobs:
 
     steps:
     - name: Publish
-      run: dotnet publish BackendRestAPI/BackendRestAPI/BackendRestAPI.csproj -c Release --no-build
+      run: dotnet publish sms-satteins-notenverwaltung/BackendRestAPI -c Release --no-build
+
 
     - name: Deploy
       run: |
