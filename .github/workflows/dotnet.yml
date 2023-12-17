@@ -29,8 +29,7 @@ jobs:
     steps:
     - name: Publish
       run: |
-        cd BackendRestAPI  # Navigate to the project directory
-        dotnet publish -c Release --no-build
+        cd BackendRestAPI && cd BackendRestAPI && dotnet publish -c Release --no-build
 
     - name: Deploy
       run: |
