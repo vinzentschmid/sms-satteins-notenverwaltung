@@ -30,7 +30,7 @@ jobs:
 
     steps:
     - name: Publish
-      run: dotnet publish BackendRestAPI -c Release --no-build -o ./publish
+      run: dotnet publish -c Release --no-build
 
 
     - name: Deploy
