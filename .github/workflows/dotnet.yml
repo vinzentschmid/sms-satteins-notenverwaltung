@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -18,7 +16,7 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Restore dependencies
-      run: dotnet restore BackendRestAPI  # Specify the subfolder
+      run: dotnet restore BackendRestAPI
     - name: Build
       run: dotnet build BackendRestAPI --no-restore
     - name: Test
@@ -30,8 +28,9 @@ jobs:
 
     steps:
     - name: Publish
-      run: dotnet publish BackendRestAPI -c Release --no-build
-
+      run: |
+        cd BackendRestAPI  # Navigate to the project directory
+        dotnet publish -c Release --no-build
 
     - name: Deploy
       run: |
