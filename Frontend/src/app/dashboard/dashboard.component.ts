@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/model/model.user';
-import { UserService } from 'src/service/service.user';
+import { Teacher } from 'src/model/model.teacher';
+import { TeacherService } from 'src/service/service.teacher';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,11 +9,10 @@ import { UserService } from 'src/service/service.user';
 })
 export class DashboardComponent implements OnInit {
   currentDay = '';
-  users: User[] = [];
-  selectedUserId: number | null = null;
-  selectedUser: User | null = null;
 
-  constructor(private userService: UserService) {}
+  selectedTeacher: Teacher | undefined;
+
+  constructor(private teacherService: TeacherService) {}
 
   ngOnInit() {
     const currentTime = new Date();
@@ -21,14 +20,6 @@ export class DashboardComponent implements OnInit {
       weekday: 'long',
     });
 
-    this.userService.getUsers().subscribe((users) => {
-      this.users = users;
-      this.selectUserById(1);
-    });
-  }
-
-  selectUserById(userId: number) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.selectedUser = this.users.find((user) => user.id === userId)!;
+    this.selectedTeacher = this.teacherService.getTeacherById(1);
   }
 }

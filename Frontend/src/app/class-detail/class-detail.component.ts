@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Class } from 'src/model/model.class';
-import { User } from 'src/model/model.user';
 import { Subject } from 'src/model/model.subject';
 import { ClassService } from 'src/service/service.class';
-import { UserService } from 'src/service/service.user';
 import { SubjectService } from 'src/service/service.subject';
 import { Assignment, AssignmentType } from 'src/model/model.assignment';
 import { Semester } from 'src/model/model.assignment';
 import { AssignmentService } from 'src/service/service.assignment';
+import { Student } from 'src/model/model.student';
+import { StudentService } from 'src/service/service.student';
+import { StudentAssigmentPointsService } from 'src/service/service.studentassigmentpoints';
 
 @Component({
   selector: 'app-class-detail',
@@ -17,19 +18,20 @@ import { AssignmentService } from 'src/service/service.assignment';
 })
 export class ClassDetailComponent implements OnInit {
   class: Class | undefined;
-  students: User[] | undefined;
+  students: Student[] | undefined;
   subjects: Subject[] = [];
   selectedSubject!: number;
   assignments: Assignment[] = [];
+  isEditEnabled = false;
   private classId: number | undefined;
 
   constructor(
     private classService: ClassService,
     private activatedRoute: ActivatedRoute,
-    private userService: UserService,
     private subjectService: SubjectService,
     private assignmentService: AssignmentService,
-    private router: Router
+    private studentService: StudentService,
+    private studentAssignmentPointsService: StudentAssigmentPointsService
   ) {}
 
   assignmentTypesFilter = Object.values(AssignmentType).filter(
@@ -134,8 +136,16 @@ export class ClassDetailComponent implements OnInit {
   }
 
   private getStudentsByClassId(classId: number): void {
-    this.userService.getStudentsByClassId(classId).subscribe((students) => {
+    this.studentService.getStudentsByClassId(classId).then((students) => {
       this.students = students;
     });
+  }
+
+  addPointsForStudentAndAssignment(
+    student: Student,
+    assignment: Assignment,
+    points: number
+  ): void {
+    this.studentAssignmentPointsService.addPoints(student, assignment, points);
   }
 }
