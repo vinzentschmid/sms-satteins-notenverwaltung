@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "dDJPdt/kT8A6Q6qeK1MbopdmbROjNYJojcpw1YOuvLI=",
+  "Source": "BackendRestAPI",
+  "BasePath": "_content/BackendRestAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

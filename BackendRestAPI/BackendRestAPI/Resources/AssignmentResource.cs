@@ -16,6 +16,8 @@ public sealed class AssignmentResource
     
     public string AssignmentType { get; set; }
     
+    public string Semester { get; set; }
+    
     [JsonIgnore]
     public Subject? SubjectFkNavigation { get; set; }
 }

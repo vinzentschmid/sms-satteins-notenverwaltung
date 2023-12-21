@@ -44,7 +44,8 @@ public class AppDbContext : DbContext
             entity.Property(e => e.SubjectFk).HasColumnName("subject_fk");
             entity.Property(e => e.AssignmentType).HasConversion<string>().
             HasColumnName("assignment_type");
-            
+            entity.Property(e => e.Semester).HasConversion<string>().
+                HasColumnName("semester");
             entity.HasOne(d => d.SubjectFkNavigation).WithMany(p => p.Assignments)
                 .HasForeignKey(d => d.SubjectFk)
                 .HasConstraintName("subject_fk");
