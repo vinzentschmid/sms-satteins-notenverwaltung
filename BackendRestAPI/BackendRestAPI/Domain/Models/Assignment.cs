@@ -15,6 +15,8 @@ public partial class Assignment
     public int? SubjectFk { get; set; }
     
     public EAssignmentType AssignmentType { get; set; }
+    
+    public ESemester Semester { get; set; }
 
     public virtual ICollection<StudentAssignment> StudentAssignments { get; set; } = new List<StudentAssignment>();
 
@@ -31,5 +33,13 @@ public enum EAssignmentType
     Check,
     [Description("Framework")]
     Framework
+}
+
+public enum ESemester
+{
+    [Description("1.Semester")]
+    FirstSemester,
+    [Description("2.Semester")]
+    SecondSemester
 }
 

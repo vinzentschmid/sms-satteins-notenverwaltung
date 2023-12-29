@@ -1,42 +1,17 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Assignment } from 'src/model/model.assignment';
-import { Student } from 'src/model/model.student';
-import { StudentAssignmentPoints } from 'src/model/model.studentassignmentpoints';
+import { Observable } from 'rxjs';
+import { StudentAssignment } from 'src/model/model.studentassignmentpoints';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StudentAssigmentPointsService {
-  private studentAssignmentPoints: StudentAssignmentPoints[] = [];
+  private apiUrl = 'http://localhost:5013/api/Students/Assignments';
 
-  addPoints(student: Student, assignment: Assignment, points: number): void {
-    const studentAssignmentPoints = this.getStudentAssignmentPoints(student);
+  constructor(private http: HttpClient) {}
 
-    if (studentAssignmentPoints) {
-      const existingAssignment =
-        studentAssignmentPoints.studentAssignments.get(student);
-
-      if (existingAssignment) {
-        existingAssignment.push(assignment);
-      } else {
-        studentAssignmentPoints.studentAssignments.set(student, [assignment]);
-      }
-      studentAssignmentPoints.points += points;
-    } else {
-      const newStudentAssignmentPoints = new StudentAssignmentPoints(
-        this.studentAssignmentPoints.length + 1,
-        points,
-        new Map([[student, [assignment]]])
-      );
-      this.studentAssignmentPoints.push(newStudentAssignmentPoints);
-    }
-  }
-
-  getStudentAssignmentPoints(
-    student: Student
-  ): StudentAssignmentPoints | undefined {
-    return this.studentAssignmentPoints.find((sap) =>
-      sap.studentAssignments.has(student)
-    );
+  getStudentAssignments(): Observable<StudentAssignment[]> {
+    return this.http.get<StudentAssignment[]>(this.apiUrl);
   }
 }

@@ -14,9 +14,7 @@ public sealed class ClassResource
 
     public string Name { get; set; }
     
-    public ICollection<StudentResource> Students { get; set; } = new List<StudentResource>();
+    public DateOnly Year { get; set; }
     
-    public  ICollection<SubjectResource> Subjects { get; set; } = new List<SubjectResource>();
-
 
 }

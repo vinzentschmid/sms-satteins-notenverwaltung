@@ -29,4 +29,19 @@ public class AssignmentsController : ControllerBase
         
         return resources;
     }
+    
+    // GET: api/Assignments/BySubject/5
+    [HttpGet("BySubject/{subjectId}")]
+    public async Task<ActionResult<IEnumerable<AssignmentResource>>> GetAssignmentsBySubject(int subjectId)
+    {
+        var assignments = await _assignmentService.ListBySubjectIdAsync(subjectId);
+        var enumerable = assignments.ToList();
+        if (!enumerable.Any())
+        {
+            return Ok(new List<Assignment>());
+        }
+
+        var assignmentResources = _mapper.Map<IEnumerable<Assignment>, IEnumerable<AssignmentResource>>(enumerable);
+        return Ok(assignmentResources);
+    }
 }

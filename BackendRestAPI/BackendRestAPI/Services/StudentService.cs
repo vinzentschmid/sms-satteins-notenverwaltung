@@ -17,4 +17,10 @@ public class StudentService : IStudentService
     {
         return await _studentRepository.ListAsync();
     }
+    
+    public async Task<IEnumerable<Student>> ListByClassIdAsync(int classId)
+    {
+        var students = await _studentRepository.ListByClassIdAsync(classId);
+        return students;
+    }
 }

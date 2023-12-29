@@ -1,12 +1,12 @@
 import { Assignment } from './model.assignment';
 
 export class Subject {
-  id: number;
+  pkSubject: number;
   name: string;
   assignments: Assignment[];
 
-  constructor(id: number, name: string, assignments: Assignment[]) {
-    this.id = id;
+  constructor(pkSubject: number, name: string, assignments: Assignment[]) {
+    this.pkSubject = pkSubject;
     this.name = name;
     this.assignments = assignments;
   }

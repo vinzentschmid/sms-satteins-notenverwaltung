@@ -1,18 +1,18 @@
 export class Assignment {
-  id: number;
+  assignmentPk: number;
   creationDate: Date;
   reachablePoints: number;
   type: AssignmentType;
   semster: Semester;
 
   constructor(
-    id: number,
+    assignmentPk: number,
     creationDate: Date,
     reachablePoints: number,
     type: AssignmentType,
     semster: Semester
   ) {
-    this.id = id;
+    this.assignmentPk = assignmentPk;
     this.creationDate = creationDate;
     this.reachablePoints = reachablePoints;
     this.type = type;

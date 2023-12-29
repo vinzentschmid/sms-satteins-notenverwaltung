@@ -19,7 +19,10 @@ export class ClassesListComponent implements OnInit {
 
   ngOnInit() {
     this.classService.getClasses().subscribe((data) => {
-      this.classes = data;
+      this.classes = data.map((cls) => ({
+        ...cls,
+        year: new Date(cls.year), // Convert year string to Date object
+      }));
       this.groupedClasses = this.groupClassesByYear(this.classes);
     });
   }
@@ -28,6 +31,7 @@ export class ClassesListComponent implements OnInit {
     const grouped: { [year: string]: Class[] } = {};
 
     classList.forEach((cls) => {
+      // Extract the year part from the Date object
       const year = cls.year.getFullYear().toString();
 
       if (!grouped[year]) {

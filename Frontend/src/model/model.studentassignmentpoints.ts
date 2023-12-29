@@ -1,18 +1,21 @@
 import { Assignment } from './model.assignment';
 import { Student } from './model.student';
 
-export class StudentAssignmentPoints {
-  id: number;
+export class StudentAssignment {
+  studentAssignmentPk: number;
   points: number;
-  studentAssignments: Map<Student, Assignment[]>; // Map<Student, Assignment[]>
+  assignmentFkNavigation: Assignment;
+  studentFkNavigation: Student;
 
   constructor(
-    id: number,
+    studentAssignmentPk: number,
     points: number,
-    studentAssignments: Map<Student, Assignment[]>
+    assignmentFkNavigation: Assignment,
+    studentFkNavigation: Student
   ) {
-    this.id = id;
+    this.studentAssignmentPk = studentAssignmentPk;
     this.points = points;
-    this.studentAssignments = studentAssignments;
+    this.assignmentFkNavigation = assignmentFkNavigation;
+    this.studentFkNavigation = studentFkNavigation;
   }
 }

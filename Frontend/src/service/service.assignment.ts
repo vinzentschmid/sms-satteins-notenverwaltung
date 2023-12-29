@@ -4,48 +4,56 @@ import {
   AssignmentType,
   Semester,
 } from '../model/model.assignment';
-import { Subject } from 'src/model/model.subject';
-import { mockSubject1, mockSubject2 } from 'src/mock/mock.subjects';
-import { Class } from 'src/model/model.class';
-import { mockClass, mockClass1 } from 'src/mock/mock.class';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AssignmentService {
-  subjects: Subject[] = [mockSubject1, mockSubject2];
-  classes: Class[] = [mockClass, mockClass1];
-  private assignments: Assignment[] = [];
+  private apiUrl = 'http://localhost:5013/api/Assignments';
 
-  getAssignmentsBySubjectAndSemester(
-    subjectId: number,
-    semester: Semester,
-    assignmentType: AssignmentType
-  ): Assignment[] {
-    const assignments: Assignment[] = [];
-    const subject = this.subjects.find((s) => s.id === subjectId);
+  constructor(private http: HttpClient) {}
 
-    if (subject) {
-      subject.assignments.forEach((assignment) => {
-        if (
-          assignment.semster === semester &&
-          (!assignmentType || assignment.type === assignmentType)
-        ) {
-          assignments.push(assignment);
-        }
-      });
-    }
-
-    return assignments;
+  getAssignmentsBySubjectId(subjectId: number): Observable<Assignment[]> {
+    return this.http
+      .get<any[]>(`${this.apiUrl}/BySubject/${subjectId}`)
+      .pipe(
+        map((assignments) =>
+          assignments.map(
+            (a) =>
+              new Assignment(
+                a.assignmentPk,
+                new Date(a.creationDate),
+                a.reachablePoints,
+                this.mapAssignmentType(a.assignmentType),
+                this.mapSemester(a.semester)
+              )
+          )
+        )
+      );
   }
 
-  addAssignment(newAssignment: Assignment, subjectId: number): void {
-    const subject = this.subjects.find((s) => s.id === subjectId);
-
-    if (subject) {
-      subject.assignments.push(newAssignment);
-    } else {
-      console.error('Subject not found!');
+  private mapAssignmentType(type: string): AssignmentType {
+    switch (type) {
+      case 'Test':
+        return AssignmentType.Test;
+      case 'Check':
+        return AssignmentType.Check;
+      case 'Homework':
+        return AssignmentType.Homework;
+      case 'Framework':
+        return AssignmentType.Framework;
+      case 'Total':
+        return AssignmentType.Total;
+      default:
+        return AssignmentType.Test; // Default or throw error
     }
+  }
+
+  private mapSemester(semester: string): Semester {
+    return semester === 'FirstSemester'
+      ? Semester['1.Semester']
+      : Semester['2.Semester'];
   }
 }

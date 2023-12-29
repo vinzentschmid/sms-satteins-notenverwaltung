@@ -3,7 +3,9 @@
         <h4 [style.color]="classTextColorYear">{{ year }}</h4>
         <div class="classes">
             <div class="class" *ngFor="let class of groupedClasses[year]" [style.background-color]="classBackgroundColor">
-                <a routerLink="/class/{{ class.id }}"><h2 [style.color]="classTextColor">{{ class.name }}</h2></a>
+                <a [routerLink]="['/class', class.pkClass]">
+                    <h2 [style.color]="classTextColor">{{ class.name }}</h2>
+                  </a>
             </div>
         </div>
     </div>

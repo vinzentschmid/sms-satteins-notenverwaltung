@@ -9,7 +9,6 @@ public class StudentResource
 
     public string Name { get; set; }
 
-    public int FkClass { get; set; }
     
     [JsonIgnore]
     public virtual Class? FkClassNavigation { get; set; }

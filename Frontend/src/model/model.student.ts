@@ -1,13 +1,9 @@
-import { Class } from './model.class';
-
 export class Student {
-  id: number;
+  pkStudent: number;
   name: string;
-  classObject: Class;
 
-  constructor(id: number, name: string, classObject: Class) {
-    this.id = id;
+  constructor(pkStudent: number, name: string) {
+    this.pkStudent = pkStudent;
     this.name = name;
-    this.classObject = classObject;
   }
 }

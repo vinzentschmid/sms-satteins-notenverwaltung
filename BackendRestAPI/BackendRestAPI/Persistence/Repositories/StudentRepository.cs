@@ -16,4 +16,11 @@ public class StudentRepository : BaseRepository, IStudentRepository
     {
         return await _context.Students.ToListAsync();
     }
+    public async Task<IEnumerable<Student>> ListByClassIdAsync(int classId)
+    {
+        return await _context.Students
+            .Where(s => s.FkClass == classId)
+            .ToListAsync();
+    }
+    
 }

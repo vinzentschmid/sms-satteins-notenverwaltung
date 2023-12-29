@@ -22,6 +22,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql("Host=localhost;Port=5432;Database=postgres;User ID=postgres;Password=password;");
 });
 
+builder.Services.AddCors(options => options.AddPolicy("AllowSpecificOrigin",
+    policyBuilder => policyBuilder.WithOrigins("http://localhost:4200")
+        .AllowAnyHeader()
+        .AllowAnyMethod()));
+
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
@@ -71,9 +76,13 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
+app.UseHttpsRedirection();
 
+app.UseCors("AllowSpecificOrigin");
+app.UseRouting();
 
-
-app.MapControllers();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.Run();
