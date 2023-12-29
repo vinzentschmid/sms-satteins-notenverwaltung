@@ -33,7 +33,7 @@ public class TeacherService : ITeacherService
         var existingTeacher = await _teacherRepository.FindByIdAsync(id);
 
         if (existingTeacher == null)
-            return new TeacherResponse("Category not found.");
+            return new TeacherResponse("Teacher not found.");
 
         existingTeacher.Name = teacher.Name;
         existingTeacher.Email = teacher.Email;

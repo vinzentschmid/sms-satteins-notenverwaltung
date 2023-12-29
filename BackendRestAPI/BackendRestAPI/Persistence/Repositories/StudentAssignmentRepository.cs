@@ -17,4 +17,14 @@ public class StudentAssignmentRepository : BaseRepository, IStudentAssignmentRep
             .Include(c => c.StudentFkNavigation)
             .Include(c => c.AssignmentFkNavigation).ToListAsync();
     }
+
+    public void Update(StudentAssignment studentAssignment)
+    {
+        _context.StudentsAssignments.Update(studentAssignment);
+    }
+
+    public async Task<StudentAssignment> FindByIdAsync(int id)
+    {
+        return await _context.StudentsAssignments.FindAsync(id);
+    }
 }

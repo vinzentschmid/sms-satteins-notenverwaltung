@@ -11,6 +11,7 @@ import { Student } from 'src/model/model.student';
 import { StudentService } from 'src/service/service.student';
 import { StudentAssigmentPointsService } from 'src/service/service.studentassigmentpoints';
 import { StudentAssignment } from 'src/model/model.studentassignmentpoints';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-class-detail',
@@ -183,11 +184,37 @@ export class ClassDetailComponent implements OnInit {
     return studentAssignment ? studentAssignment.points : 0;
   }
 
-  addPointsForStudentAndAssignment(
+  getStudentAssignmentId(student: Student, assignment: Assignment): number {
+    const studentAssignment = this.studentAssignments.find(
+      (sa) =>
+        sa.studentFkNavigation.pkStudent === student.pkStudent &&
+        sa.assignmentFkNavigation.assignmentPk === assignment.assignmentPk
+    );
+
+    return studentAssignment ? studentAssignment.studentAssignmentPk : 0;
+  }
+
+  updateStudentAssignment(
     student: Student,
     assignment: Assignment,
-    points: number
+    event: Event,
+    studentAssignmentId: number
   ): void {
-    //this.studentAssignmentPointsService.addPoints(student, assignment, points);
+    const inputElement = event.target as HTMLInputElement;
+    const newPoints = inputElement.valueAsNumber;
+    const updatePayload = {
+      points: newPoints,
+      studentFk: student.pkStudent,
+      assignmentFk: assignment.assignmentPk,
+    };
+
+    this.studentAssignmentPointsService
+      .updateStudentAssignment(studentAssignmentId, updatePayload)
+      .subscribe(
+        () => {
+          this.fetchStudentAssignments();
+        },
+        (error) => console.error('Error updating points:', error)
+      );
   }
 }

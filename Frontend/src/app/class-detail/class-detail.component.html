@@ -41,10 +41,9 @@
           </div>
           <ng-template #editModeContent>
             <input type="number" 
-            [value]="getPointsForStudentAssignment(student, assignment)" 
-            (keyup)="addPointsForStudentAndAssignment(student, assignment, input.valueAsNumber)" 
-            #input 
-            name="studentPoint" >
+                   [value]="getPointsForStudentAssignment(student, assignment)" 
+                   (blur)="updateStudentAssignment(student, assignment, $event, getStudentAssignmentId(student, assignment) )"
+                   [name]="'studentPoint-' + student.pkStudent + '-' + assignment.assignmentPk">
           </ng-template>
           / {{ assignment.reachablePoints }}
 

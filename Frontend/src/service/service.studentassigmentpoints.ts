@@ -8,10 +8,15 @@ import { StudentAssignment } from 'src/model/model.studentassignmentpoints';
 })
 export class StudentAssigmentPointsService {
   private apiUrl = 'http://localhost:5013/api/Students/Assignments';
+  private apiUrl2 = 'http://localhost:5013/api/Assignments';
 
   constructor(private http: HttpClient) {}
 
   getStudentAssignments(): Observable<StudentAssignment[]> {
     return this.http.get<StudentAssignment[]>(this.apiUrl);
+  }
+
+  updateStudentAssignment(assignmentId: number, payload: any): Observable<any> {
+    return this.http.put(`${this.apiUrl2}/${assignmentId}`, payload);
   }
 }
