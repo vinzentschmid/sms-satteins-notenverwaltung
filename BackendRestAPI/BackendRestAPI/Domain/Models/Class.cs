@@ -7,6 +7,8 @@ public partial class Class
     public int PkClass { get; set; }
 
     public string Name { get; set; } = null!;
+    
+    public DateOnly Year { get; set; }
 
     public virtual ICollection<ClassTeacher> ClassTeachers { get; set; } = new List<ClassTeacher>();
 

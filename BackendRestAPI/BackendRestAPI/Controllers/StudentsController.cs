@@ -11,10 +11,14 @@ namespace BackendRestAPI.Controllers;
 public class StudentsController : ControllerBase
 {
     private readonly IStudentService _studentService;
+    private readonly IStudentAssignmentService _studentAssignmentService;
+
     private readonly IMapper _mapper;
 
-    public StudentsController(IStudentService studentService, IMapper mapper)
+    public StudentsController(IStudentService studentService, IMapper mapper, IStudentAssignmentService studentAssignmentService)
     {
+        this._studentAssignmentService = studentAssignmentService;
+
         this._studentService = studentService;
         this._mapper = mapper;
     }
@@ -26,5 +30,28 @@ public class StudentsController : ControllerBase
         var resources = _mapper.Map<IEnumerable<Student>, IEnumerable<StudentResource>>(students);
         
         return resources;
+    }
+    
+    [HttpGet("Assignments")]
+    public async Task<IEnumerable<StudentAssignmentResource>> GetClasses()
+    {
+        var studentAssignments = await _studentAssignmentService.ListAsync();
+        var resources = _mapper.Map<IEnumerable<StudentAssignment>, IEnumerable<StudentAssignmentResource>>(studentAssignments);
+        
+        return resources;
+    }
+    
+    [HttpGet("ByClass/{classId}")]
+    public async Task<ActionResult<IEnumerable<StudentResource>>> GetStudentsByClass(int classId)
+    {
+        var students = await _studentService.ListByClassIdAsync(classId);
+        var enumerable = students.ToList();
+        if (!enumerable.Any())
+        {
+            return NotFound("Students not found for the class");
+        }
+
+        var studentResources = _mapper.Map<IEnumerable<Student>, IEnumerable<StudentResource>>(enumerable);
+        return Ok(studentResources);
     }
 }

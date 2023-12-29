@@ -8,8 +8,6 @@ public class SubjectResource
     public int PkSubject { get; set; }
 
     public string Name { get; set; }
-
-    public int ClassFk { get; set; }
     
     public  ICollection<AssignmentResource> Assignments { get; set; } = new List<AssignmentResource>();
 

@@ -17,4 +17,12 @@ public class AssignmentRepository : BaseRepository, IAssignmentRepository
         return await _context.Assignments.ToListAsync();
         
     }
+    
+    
+    public async Task<IEnumerable<Assignment>> ListBySubjectIdAsync(int subjectId)
+    {
+        return await _context.Assignments
+            .Where(a => a.SubjectFk == subjectId)
+            .ToListAsync();
+    }
 }

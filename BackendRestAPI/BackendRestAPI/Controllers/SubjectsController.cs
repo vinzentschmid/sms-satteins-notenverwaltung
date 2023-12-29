@@ -1,6 +1,7 @@
 using AutoMapper;
 using BackendRestAPI.Domain.Models;
 using BackendRestAPI.Domain.Services;
+using BackendRestAPI.Domain.Services.Communication;
 using BackendRestAPI.Models;
 using BackendRestAPI.Resources;
 using Microsoft.AspNetCore.Mvc;
@@ -28,4 +29,18 @@ public class SubjectsController : ControllerBase
         
         return resources;
     }
+    [HttpGet("ByClass/{classId}")]
+    public async Task<ActionResult<IEnumerable<SubjectResource>>> GetSubjectsByClass(int classId)
+    {
+        var subjects = await _subjectService.ListByClassIdAsync(classId);
+        var enumerable = subjects.ToList();
+        if (!enumerable.Any())
+        {
+            return NotFound("Subjects not found for the class");
+        }
+
+        var subjectResources = _mapper.Map<IEnumerable<Subject>, IEnumerable<SubjectResource>>(enumerable);
+        return Ok(subjectResources);
+    }
+    
 }

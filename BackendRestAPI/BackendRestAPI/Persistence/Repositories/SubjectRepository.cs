@@ -15,4 +15,12 @@ public class SubjectRepository : BaseRepository, ISubjectRepository
     {
         return await _context.Subjects.Include(c => c.Assignments).ToListAsync();
     }
+
+    public async Task<IEnumerable<Subject>> ListByClassIdAsync(int classId)
+    {
+        return await _context.Subjects
+            .Where(s => s.ClassFk == classId)
+            .ToListAsync();
+    }
+
 }

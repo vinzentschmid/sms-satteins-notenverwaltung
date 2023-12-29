@@ -63,6 +63,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .HasColumnName("name");
+            entity.Property(e => e.Year).HasColumnName("year");
         });
 
         modelBuilder.Entity<ClassTeacher>(entity =>

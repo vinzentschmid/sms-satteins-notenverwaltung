@@ -11,8 +11,6 @@ public sealed class AssignmentResource
     public DateOnly CreationDate { get; set; }
 
     public int ReachablePoints { get; set; }
-
-    public int SubjectFk { get; set; }
     
     public string AssignmentType { get; set; }
     

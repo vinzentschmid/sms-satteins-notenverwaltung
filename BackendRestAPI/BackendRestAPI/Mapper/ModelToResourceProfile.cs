@@ -12,9 +12,7 @@ public class ModelToResourceProfile : Profile
     {
         CreateMap<Teacher, TeacherResource>();
         CreateMap<Student, StudentResource>();
-        CreateMap<Class, ClassResource>()
-            .ForMember(dest => dest.Students, opt => opt.MapFrom(src => src.Students.ToList()))
-            .ForMember(dest => dest.Subjects, opt => opt.MapFrom(src => src.Subjects.ToList()));
+        CreateMap<Class, ClassResource>();
         CreateMap<Subject, SubjectResource>()
             .ForMember(dest => dest.Assignments, opt => opt.MapFrom(src => src.Assignments.ToList()));
         CreateMap<Assignment, AssignmentResource>()
