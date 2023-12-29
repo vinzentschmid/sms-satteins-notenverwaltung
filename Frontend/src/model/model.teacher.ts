@@ -1,32 +1,24 @@
-import { Class } from './model.class';
-
 export class Teacher {
-  id: number;
-  firstName: string;
-  lastName: string;
+  pkTeacher: number;
+  name: string;
   email: string;
+  firstTitle: string;
+  lastTitle: string;
   password: string;
-  firstTitle?: string;
-  lastTitle?: string;
-  classes?: Class[];
 
   constructor(
-    id: number,
-    firstName: string,
-    lastName: string,
+    pkTeacher: number,
+    name: string,
     email: string,
-    password: string,
-    firstTitle?: string,
-    lastTitle?: string,
-    classes?: Class[]
+    firstTitle: string,
+    lastTitle: string,
+    password: string
   ) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.pkTeacher = pkTeacher;
+    this.name = name;
     this.email = email;
-    this.password = password;
     this.firstTitle = firstTitle;
     this.lastTitle = lastTitle;
-    this.classes = classes;
+    this.password = password;
   }
 }

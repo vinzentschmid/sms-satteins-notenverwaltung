@@ -10,6 +10,7 @@ import { AssignmentService } from 'src/service/service.assignment';
 import { Student } from 'src/model/model.student';
 import { StudentService } from 'src/service/service.student';
 import { StudentAssigmentPointsService } from 'src/service/service.studentassigmentpoints';
+import { StudentAssignment } from 'src/model/model.studentassignmentpoints';
 
 @Component({
   selector: 'app-class-detail',
@@ -20,10 +21,11 @@ export class ClassDetailComponent implements OnInit {
   class: Class | undefined;
   students: Student[] | undefined;
   subjects: Subject[] = [];
-  selectedSubject!: number;
+  selectedSubject: number | undefined;
   assignments: Assignment[] = [];
   isEditEnabled = false;
-  private classId: number | undefined;
+  studentAssignments: StudentAssignment[] = [];
+  private pkClass: number | undefined;
 
   constructor(
     private classService: ClassService,
@@ -56,22 +58,14 @@ export class ClassDetailComponent implements OnInit {
   currentSemester!: Semester;
 
   ngOnInit(): void {
-    this.getClassDetails();
-
-    if (this.classId === undefined) {
+    this.pkClass = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    if (!this.pkClass) {
+      console.error('Invalid class ID provided');
       return;
     }
-    this.subjectService
-      .getSubjectsByClassId(this.classId)
-      .subscribe((subjects) => {
-        this.subjects = subjects;
-        this.selectedSubject =
-          this.subjects.length > 0 ? this.subjects[0].id : 0;
-
-        this.calculateCurrentSemester();
-
-        this.fetchAssignments();
-      });
+    this.getClassDetails();
+    this.getStudentsByClassId(this.pkClass);
+    this.getSubjectsByClassId(this.pkClass);
   }
 
   toggleSemester() {
@@ -80,7 +74,7 @@ export class ClassDetailComponent implements OnInit {
         ? Semester['2.Semester']
         : Semester['1.Semester'];
 
-    this.fetchAssignments();
+    this.updateAssignments();
   }
 
   toggleAssignmentType(assignmentTypeKey: string) {
@@ -92,11 +86,12 @@ export class ClassDetailComponent implements OnInit {
     this.updateAssignments();
   }
   updateAssignments() {
+    this.fetchStudentAssignments();
     this.fetchAssignments();
   }
 
-  onSubjectChange() {
-    this.fetchAssignments();
+  onSubjectChange(): void {
+    this.updateAssignments();
   }
 
   calculateCurrentSemester() {
@@ -108,37 +103,84 @@ export class ClassDetailComponent implements OnInit {
   }
 
   private fetchAssignments(): void {
-    this.assignments = this.class?.id
-      ? this.assignmentService.getAssignmentsBySubjectAndSemester(
-          this.selectedSubject,
-          this.currentSemester,
-          this.currentAssignment
-        )
-      : [];
+    if (this.selectedSubject !== undefined) {
+      this.assignmentService
+        .getAssignmentsBySubjectId(this.selectedSubject)
+        .subscribe(
+          (assignments) => {
+            if (assignments && assignments.length > 0) {
+              this.assignments = assignments.filter(
+                (a) =>
+                  a.type === this.currentAssignment &&
+                  a.semster === this.currentSemester
+              );
+            } else {
+              this.assignments = [];
+            }
+          },
+          () => {
+            this.assignments = [];
+          }
+        );
+    } else {
+      this.assignments = [];
+    }
   }
 
   private getClassDetails(): void {
-    this.classId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
-
-    if (!this.classId) {
+    if (!this.pkClass) {
       console.error('Invalid class ID provided');
       return;
     }
 
-    this.classService.getClassById(this.classId).subscribe((cls) => {
-      if (cls) {
+    this.classService.getClassById(this.pkClass).subscribe(
+      (cls) => {
         this.class = cls;
-        this.getStudentsByClassId(cls.id);
-      } else {
-        console.error(`Class with ID ${this.classId} not found`);
-      }
-    });
+      },
+      (error) => console.error(`Error fetching class details: ${error}`)
+    );
   }
 
   private getStudentsByClassId(classId: number): void {
-    this.studentService.getStudentsByClassId(classId).then((students) => {
-      this.students = students;
-    });
+    this.studentService.getStudentsByClassId(classId).subscribe(
+      (students) => (this.students = students),
+      (error) => console.error(`Error fetching students: ${error}`)
+    );
+  }
+
+  private getSubjectsByClassId(classId: number): void {
+    this.subjectService.getSubjectsByClassId(classId).subscribe(
+      (subjects) => {
+        this.subjects = subjects;
+        this.selectedSubject =
+          this.subjects.length > 0 ? this.subjects[0].pkSubject : 0;
+        this.calculateCurrentSemester();
+        this.updateAssignments();
+      },
+      (error) => console.error(`Error fetching subjects: ${error}`)
+    );
+  }
+
+  private fetchStudentAssignments(): void {
+    this.studentAssignmentPointsService.getStudentAssignments().subscribe(
+      (data) => {
+        this.studentAssignments = data;
+      },
+      (error) => console.error('Error fetching student assignments:', error)
+    );
+  }
+
+  getPointsForStudentAssignment(
+    student: Student,
+    assignment: Assignment
+  ): number {
+    const studentAssignment = this.studentAssignments.find(
+      (sa) =>
+        sa.studentFkNavigation.pkStudent === student.pkStudent &&
+        sa.assignmentFkNavigation.assignmentPk === assignment.assignmentPk
+    );
+
+    return studentAssignment ? studentAssignment.points : 0;
   }
 
   addPointsForStudentAndAssignment(
@@ -146,6 +188,6 @@ export class ClassDetailComponent implements OnInit {
     assignment: Assignment,
     points: number
   ): void {
-    this.studentAssignmentPointsService.addPoints(student, assignment, points);
+    //this.studentAssignmentPointsService.addPoints(student, assignment, points);
   }
 }

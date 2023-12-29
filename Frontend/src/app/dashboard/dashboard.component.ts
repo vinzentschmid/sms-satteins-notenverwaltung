@@ -20,6 +20,14 @@ export class DashboardComponent implements OnInit {
       weekday: 'long',
     });
 
-    this.selectedTeacher = this.teacherService.getTeacherById(1);
+    const teacherId = 1; // Die ID des Lehrers, den Sie abrufen möchten
+    this.teacherService.getTeacherById(teacherId).subscribe(
+      (data) => {
+        this.selectedTeacher = data; // Zuweisung innerhalb von subscribe
+      },
+      (error) => {
+        console.error('Fehler beim Laden des Lehrers', error);
+      }
+    );
   }
 }

@@ -14,7 +14,7 @@ import { AssignmentService } from 'src/service/service.assignment';
 })
 export class AddAssignmentComponent {
   newAssignment: Assignment = {
-    id: 0,
+    assignmentPk: 0,
     creationDate: new Date(),
     reachablePoints: 0,
     type: AssignmentType.Test,
@@ -39,7 +39,7 @@ export class AddAssignmentComponent {
   }
 
   onSubmit(): void {
-    this.assignmentService.addAssignment(this.newAssignment, this.subjectId);
+    //this.assignmentService.addAssignment(this.newAssignment, this.subjectId);
     // You can reset the form or perform any other actions after adding the assignment.
   }
 }

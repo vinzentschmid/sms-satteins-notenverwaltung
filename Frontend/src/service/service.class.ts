@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { Class } from '../model/model.class';
-import { mockClass, mockClass1 } from '../mock/mock.class';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClassService {
-  mockClasses: Class[] = [mockClass, mockClass1];
+  private apiUrl = 'http://localhost:5013/api/Classes';
+
+  constructor(private http: HttpClient) {}
 
   getClasses(): Observable<Class[]> {
-    return of(this.mockClasses);
+    return this.http.get<Class[]>(this.apiUrl);
   }
 
-  getClassById(id: number): Observable<Class | undefined> {
-    const foundClass = this.mockClasses.find((cls) => cls.id === id);
-    return of(foundClass);
+  getClassById(id: number): Observable<Class> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.get<Class>(url);
   }
 }

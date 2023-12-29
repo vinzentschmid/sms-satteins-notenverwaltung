@@ -1,15 +1,17 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { mockTeacher1 } from 'src/mock/mock.teacher';
+import { Observable } from 'rxjs';
 import { Teacher } from 'src/model/model.teacher';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TeacherService {
-  teachers: Teacher[] = [mockTeacher1];
+  private apiUrl = 'http://localhost:5013/api/Teachers';
 
-  getTeacherById(id: number): Teacher | undefined {
-    const foundTeacher = this.teachers.find((teacher) => teacher.id === id);
-    return foundTeacher;
+  constructor(private http: HttpClient) {}
+
+  getTeacherById(id: number): Observable<Teacher> {
+    return this.http.get<Teacher>(`${this.apiUrl}/${id}`);
   }
 }

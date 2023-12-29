@@ -16,6 +16,7 @@ import { ClassDetailComponent } from './class-detail/class-detail.component';
 import { AddAssignmentComponent } from './add-assignment/add-assignment.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     RouterModule,
     CommonModule,
     BrowserAnimationsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
