@@ -1,9 +1,11 @@
 using AutoMapper;
 using BackendRestAPI.Domain.Models;
 using BackendRestAPI.Domain.Services;
+using BackendRestAPI.Extensions;
 using BackendRestAPI.Models;
 using BackendRestAPI.Resources;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 
 namespace BackendRestAPI.Controllers;
 
@@ -12,11 +14,13 @@ namespace BackendRestAPI.Controllers;
 public class AssignmentsController : ControllerBase
 {
     private readonly IAssignmentService _assignmentService;
+    private readonly IStudentAssignmentService _studentAssignmentService;
     private readonly IMapper _mapper;
 
-    public AssignmentsController(IAssignmentService assignmentService, IMapper mapper)
+    public AssignmentsController(IAssignmentService assignmentService, IMapper mapper, IStudentAssignmentService studentAssignmentService)
     {
         _assignmentService = assignmentService;
+        _studentAssignmentService = studentAssignmentService;
         _mapper = mapper;
     }
     
@@ -44,4 +48,29 @@ public class AssignmentsController : ControllerBase
         var assignmentResources = _mapper.Map<IEnumerable<Assignment>, IEnumerable<AssignmentResource>>(enumerable);
         return Ok(assignmentResources);
     }
+    
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateStudentAssignment(int id, [FromBody] SaveStudentAssignmentResource resource)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState.GetErrorMessages());
+
+        var studentAssignment = _mapper.Map<SaveStudentAssignmentResource, StudentAssignment>(resource);
+        var result = await _studentAssignmentService.UpdateAsync(id, studentAssignment);
+
+        if (!result.Success)
+            return BadRequest("Update Assignment went wrong");
+
+        var studentAssignmentResource = _mapper.Map<StudentAssignment, StudentAssignmentResource>(result.StudentAssignment);
+        return Ok(studentAssignmentResource);
+    }
+    
+    [HttpGet("{id}")]
+    public async Task<ActionResult<StudentAssignmentResource>> GetStudentAssignment(int id)
+    {
+        var studentAssignment = await _studentAssignmentService.FindOneAsync(id);
+        return studentAssignment.StudentAssignment != null
+            ? _mapper.Map<StudentAssignment, StudentAssignmentResource>(studentAssignment.StudentAssignment)
+            : BadRequest("Class not found");
+    } 
 }

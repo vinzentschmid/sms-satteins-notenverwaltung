@@ -52,8 +52,8 @@ namespace BackendRestAPI.Controllers
             if (!result.Success)
                 return BadRequest("Update Teacher went wrong");
 
-            var categoryResource = _mapper.Map<Teacher, TeacherResource>(result.Teacher);
-            return Ok(categoryResource);
+            var teacherResource = _mapper.Map<Teacher, TeacherResource>(result.Teacher);
+            return Ok(teacherResource);
         }
     }
 }
