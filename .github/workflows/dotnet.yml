@@ -21,15 +21,8 @@ jobs:
       run: dotnet build BackendRestAPI --no-restore
     - name: Test
       run: dotnet test BackendRestAPI --no-build --verbosity normal
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
     - name: Publish
-      run: |
-        run: dotnet publish  -c Release --no-build
+      run: dotnet publish -c Release -o publish_output
 
 
 
