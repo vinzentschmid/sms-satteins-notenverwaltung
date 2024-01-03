@@ -1,10 +1,14 @@
-name: .NET
+name: ASP.NET Core CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
+    paths:
+      - 'BackendRestAPI/BackendRestAPI/**'
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
+    paths:
+      - 'BackendRestAPI/BackendRestAPI/**'
 
 jobs:
   build:
@@ -13,10 +17,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Set up .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '8.0.0' # Specify the .NET version
+        dotnet-version: '8.0.x' # Specify the .NET version
+
+    - name: Change to Project Directory
+      run: cd BackendRestAPI/BackendRestAPI
 
     - name: Restore dependencies
       run: dotnet restore
@@ -26,6 +34,9 @@ jobs:
 
     - name: Test
       run: dotnet test --no-build --verbosity normal
+
+    # Add additional steps for deployment or other jobs as needed
+
 
 
 
