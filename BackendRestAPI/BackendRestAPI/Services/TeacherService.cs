@@ -35,7 +35,7 @@ public class TeacherService : ITeacherService
         if (existingTeacher == null)
             return new TeacherResponse("Teacher not found.");
 
-        existingTeacher.Name = teacher.Name;
+        existingTeacher.UserName = teacher.UserName;
         existingTeacher.Email = teacher.Email;
         existingTeacher.FirstTitle = teacher.FirstTitle;
         existingTeacher.LastTitle = teacher.LastTitle;

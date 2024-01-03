@@ -1,11 +1,18 @@
 using BackendRestAPI.Domain.Models;
 using BackendRestAPI.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackendRestAPI.Persistence.Contexts;
 
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext<Teacher, IdentityRole<int>, int>
 {
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+        //InitializeData();
+    }
+    
     public DbSet<Teacher> Teachers { get; set; }
     public DbSet<Student> Students { get; set; }
     
@@ -17,14 +24,8 @@ public class AppDbContext : DbContext
     
     public DbSet<StudentAssignment> StudentsAssignments { get; set; }
     
-    public AppDbContext()
-    {
-    }
     
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
-        //InitializeData();
-    }
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -55,7 +56,7 @@ public class AppDbContext : DbContext
         {
             entity.HasKey(e => e.PkClass).HasName("class_pk");
 
-            entity.ToTable("class");
+            entity.ToTable("class_table");
 
             entity.Property(e => e.PkClass)
                 .ValueGeneratedNever()
@@ -149,7 +150,10 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Teacher>(entity =>
         {
-            entity.HasKey(e => e.PkTeacher).HasName("teacher_pk");
+            //entity.Ignore(u => u.NormalizedUserName);
+            //entity.Ignore(u => u.NormalizedEmail);
+
+            entity.HasKey(e => e.PkTeacher).HasName("pk_teacher");
 
             entity.ToTable("teachers");
 
@@ -165,7 +169,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.LastTitle)
                 .HasMaxLength(255)
                 .HasColumnName("last_title");
-            entity.Property(e => e.Name)
+            entity.Property(e => e.UserName)
                 .HasMaxLength(255)
                 .HasColumnName("name");
             entity.Property(e => e.Password)

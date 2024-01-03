@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using AutoMapper;
 using BackendRestAPI.Domain.Models;
 using BackendRestAPI.Domain.Repositories;
@@ -7,40 +6,64 @@ using BackendRestAPI.Mapper;
 using BackendRestAPI.Persistence.Contexts;
 using BackendRestAPI.Persistence.Repositories;
 using BackendRestAPI.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure.Internal;
-using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
 
+// Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseNpgsql("Host=localhost;Port=5432;Database=postgres;User ID=postgres;Password=password;");
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddDefaultIdentity<Teacher>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+        options.SignIn.RequireConfirmedEmail = false;
+    })
+    .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddAuthentication();
 
 builder.Services.AddCors(options => options.AddPolicy("AllowSpecificOrigin",
     policyBuilder => policyBuilder.WithOrigins("http://localhost:4200")
         .AllowAnyHeader()
         .AllowAnyMethod()));
 
+// Registering Repositories
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
-builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
-builder.Services.AddScoped<IClassService, ClassService>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
-builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
-builder.Services.AddScoped<IAssignmentService, AssignmentService>();
 builder.Services.AddScoped<IStudentAssignmentRepository, StudentAssignmentRepository>();
+
+// Registering Services
+builder.Services.AddScoped<ITeacherService, TeacherService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IClassService, ClassService>();
+builder.Services.AddScoped<ISubjectService, SubjectService>();
+builder.Services.AddScoped<IAssignmentService, AssignmentService>();
 builder.Services.AddScoped<IStudentAssignmentService, StudentAssignmentService>();
 
+// Registering UnitOfWork
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// AutoMapper Configuration
+var mappingConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new ModelToResourceProfile());
+    mc.AddProfile(new ResourceToModelProfile());
+});
+var mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
+// Swagger Configuration
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -49,40 +72,38 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1",
         Description = "RestAPI für die Notenverwaltung an Mittelschulen",
     });
+
 });
-
-
-
-var mappingConfig = new MapperConfiguration(mc =>
-{
-    mc.AddProfile(new ModelToResourceProfile());
-    mc.AddProfile(new ResourceToModelProfile());
-});
-
-var mapper = mappingConfig.CreateMapper();
-builder.Services.AddSingleton(mapper);
-
 
 var app = builder.Build();
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
-    c.RoutePrefix = string.Empty; // Serve the Swagger UI at the root URL
-    c.DocExpansion(DocExpansion.List);
-});
+
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
+
 app.UseHttpsRedirection();
 
 app.UseCors("AllowSpecificOrigin");
+
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
+    c.RoutePrefix = string.Empty; // Serve the Swagger UI at the root (root URL)
+});
 
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
+
+app.MapGroup("api/auth").MapIdentityApi<Teacher>();
 app.Run();
