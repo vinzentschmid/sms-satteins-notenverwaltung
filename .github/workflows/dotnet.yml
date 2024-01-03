@@ -22,7 +22,7 @@ jobs:
     - name: Test
       run: dotnet test BackendRestAPI --no-build --verbosity normal
     - name: Publish
-      run: dotnet publish -c Release -o publish_output
+      run: dotnet publish BackendRestAPI -c Release -o publish_output
 
 
 
