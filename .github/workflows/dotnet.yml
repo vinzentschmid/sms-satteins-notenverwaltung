@@ -8,32 +8,24 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+    - uses: actions/checkout@v2
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 7.0.0
+        dotnet-version: '8.0.0' # Specify the .NET version
+
     - name: Restore dependencies
-      run: dotnet restore BackendRestAPI
+      run: dotnet restore
+
     - name: Build
-      run: dotnet build BackendRestAPI --no-restore
+      run: dotnet build --no-restore
+
     - name: Test
-      run: dotnet test BackendRestAPI --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
 
-    steps:
-    - name: Publish
-      run: |
-        run: dotnet publish BackendRestAPI -c Release --no-build
-
-    - name: Deploy
-      run: |
-        # Add your deployment steps here
-        # Navigate to the published folder if needed
-        # For example, deploy to a server, Azure, AWS, or any other platform
 
