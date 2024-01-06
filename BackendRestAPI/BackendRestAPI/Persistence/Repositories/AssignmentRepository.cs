@@ -25,4 +25,9 @@ public class AssignmentRepository : BaseRepository, IAssignmentRepository
             .Where(a => a.SubjectFk == subjectId)
             .ToListAsync();
     }
+
+    public async Task AddAsync(Assignment assignment)
+    {
+        await _context.Assignments.AddAsync(assignment);
+    }
 }

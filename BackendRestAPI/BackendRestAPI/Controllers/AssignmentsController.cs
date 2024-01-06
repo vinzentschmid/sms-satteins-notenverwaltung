@@ -72,5 +72,39 @@ public class AssignmentsController : ControllerBase
         return studentAssignment.StudentAssignment != null
             ? _mapper.Map<StudentAssignment, StudentAssignmentResource>(studentAssignment.StudentAssignment)
             : BadRequest("Class not found");
-    } 
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> PostAssignment([FromBody] SaveAssignmentResource resource)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState.GetErrorMessages());
+
+        var assignment = _mapper.Map<SaveAssignmentResource, Assignment>(resource);
+        var result = await _assignmentService.SaveAsync(assignment);
+
+        if (!result.Success)
+            return BadRequest(result.Message);
+        var assignmentResource = _mapper.Map<Assignment, AssignmentResource>(result.Assignment);
+        return Ok(assignmentResource);
+    }
+    
+    [HttpPost("StudentAssignment")]
+    public async Task<IActionResult> PostStudentAssignment([FromBody] SaveStudentAssignmentResource resource)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState.GetErrorMessages());
+
+        var studentAssignment = _mapper.Map<SaveStudentAssignmentResource, StudentAssignment>(resource);
+       
+        
+        var result = await _studentAssignmentService.SaveAsync(studentAssignment);
+
+        if (!result.Success)
+            return BadRequest(result.Message);
+        
+        var assignmentResource = _mapper.Map<StudentAssignment, StudentAssignmentResource>(result.StudentAssignment);
+        
+        return Ok(assignmentResource);
+    }
 }

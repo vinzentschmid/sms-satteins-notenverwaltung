@@ -51,7 +51,10 @@ public class AppDbContext : IdentityDbContext<Teacher, IdentityRole<int>, int>
                 .HasForeignKey(d => d.SubjectFk)
                 .HasConstraintName("subject_fk");
         });
-
+    
+        modelBuilder.HasPostgresEnum<EAssignmentType>();
+        modelBuilder.HasPostgresEnum<ESemester>();
+        
         modelBuilder.Entity<Class>(entity =>
         {
             entity.HasKey(e => e.PkClass).HasName("class_pk");

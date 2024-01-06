@@ -27,4 +27,9 @@ public class StudentAssignmentRepository : BaseRepository, IStudentAssignmentRep
     {
         return await _context.StudentsAssignments.FindAsync(id);
     }
+
+    public async Task AddAsync(StudentAssignment studentAssignment)
+    {
+        await _context.StudentsAssignments.AddAsync(studentAssignment);
+    }
 }
