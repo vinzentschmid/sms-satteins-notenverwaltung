@@ -10,4 +10,6 @@ public interface IStudentAssignmentRepository
     
     Task<StudentAssignment> FindByIdAsync(int id);
 
+    Task AddAsync(StudentAssignment studentAssignment);
+
 }

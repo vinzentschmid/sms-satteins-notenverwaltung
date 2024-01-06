@@ -25,21 +25,15 @@ public partial class Assignment
 
 public enum EAssignmentType
 {
-    [Description("Test")]
     Test,
-    [Description("Homework")]
     Homework,
-    [Description("Check")]
     Check,
-    [Description("Framework")]
     Framework
 }
 
 public enum ESemester
 {
-    [Description("1.Semester")]
     FirstSemester,
-    [Description("2.Semester")]
     SecondSemester
 }
 

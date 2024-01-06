@@ -1,16 +1,25 @@
 using System.ComponentModel;
 using System.Reflection;
+using AutoMapper;
 using BackendRestAPI.Domain.Models;
+using BackendRestAPI.Resources;
 
 namespace BackendRestAPI.Extensions;
 
-public static class EnumExtension
+public class EnumExtension<TEnum> : IValueConverter<string, TEnum> where TEnum : struct
 {
-    public static string ToDescriptionString<TEnum>(this TEnum @enum)
+    public TEnum Convert(string sourceMember, ResolutionContext context)
     {
-        FieldInfo info = @enum.GetType().GetField(@enum.ToString());
-        var attributes = (DescriptionAttribute[])info.GetCustomAttributes(typeof(DescriptionAttribute), false);
+        if (string.IsNullOrEmpty(sourceMember))
+        {
+            throw new ArgumentException("Cannot convert null or empty string to enum.");
+        }
 
-        return attributes?[0].Description ?? @enum.ToString();
+        if (Enum.TryParse<TEnum>(sourceMember, out var enumValue))
+        {
+            return enumValue;
+        }
+
+        throw new ArgumentException($"Invalid value for enum {typeof(TEnum).Name}: {sourceMember}");
     }
 }

@@ -7,4 +7,6 @@ public interface IAssignmentRepository
 {
     Task<IEnumerable<Assignment>> ListAsync();
     Task<IEnumerable<Assignment>> ListBySubjectIdAsync(int subjectId);
+    Task AddAsync(Assignment assignment);
+
 }

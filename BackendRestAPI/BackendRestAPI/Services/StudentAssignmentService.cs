@@ -51,4 +51,38 @@ public class StudentAssignmentService : IStudentAssignmentService
         var existingStudentAssignment = await this._studentAssignmentRepository.FindByIdAsync(id);
         return new StudentAssignmentResponse(existingStudentAssignment);    
     }
+
+    public async Task<StudentAssignmentResponse> SaveAsync(StudentAssignment studentAssignment)
+    {
+        try
+        {
+            
+            studentAssignment.StudentAssignmentPk = await GenerateUniquePrimaryKeyStudentAssignment();
+
+            await _studentAssignmentRepository.AddAsync(studentAssignment);
+            await _unitOfWork.CompleteAsync();
+
+            return new StudentAssignmentResponse(studentAssignment);
+        }
+        catch(Exception ex)
+        {
+            return new StudentAssignmentResponse($"An error occurred when saving the StudentAssignment: {ex.Message}");
+        }
+    }
+    
+    private async Task<int> GenerateUniquePrimaryKeyStudentAssignment()
+    {
+        var allStudentAssignments = await _studentAssignmentRepository.ListAsync();
+
+        var studentAssignments = allStudentAssignments.ToList();
+        if (!studentAssignments.Any())
+        {
+            return 1;
+        }
+
+        var maxPk = studentAssignments.Max(sa => sa.StudentAssignmentPk);
+        return maxPk + 1;
+    }
+    
+    
 }
