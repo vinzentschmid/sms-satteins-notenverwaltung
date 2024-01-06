@@ -1,13 +1,13 @@
-import {Component, Input, Type} from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 
 @Component({
   selector: 'app-custom-input-field',
   templateUrl: './custom-input-field.component.html',
-  styleUrls: ['./custom-input-field.component.scss']
+  styleUrls: ['./custom-input-field.component.scss'],
 })
 export class CustomInputFieldComponent {
-  @Input() label: string = 'Default Label';
-  @Input() type: string = 'text';
+  @Input() label = 'Default Label';
+  @Input() type = 'text';
 
   isInputFocused = false;
 

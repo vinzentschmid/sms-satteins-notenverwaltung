@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Class } from 'src/model/model.class';
 import { Subject } from 'src/model/model.subject';
 import { ClassService } from 'src/service/service.class';
@@ -11,7 +11,6 @@ import { Student } from 'src/model/model.student';
 import { StudentService } from 'src/service/service.student';
 import { StudentAssigmentPointsService } from 'src/service/service.studentassigmentpoints';
 import { StudentAssignment } from 'src/model/model.studentassignmentpoints';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-class-detail',
@@ -27,6 +26,7 @@ export class ClassDetailComponent implements OnInit {
   isEditEnabled = false;
   studentAssignments: StudentAssignment[] = [];
   private pkClass: number | undefined;
+  private pkSubject: number | undefined;
 
   constructor(
     private classService: ClassService,
@@ -34,7 +34,8 @@ export class ClassDetailComponent implements OnInit {
     private subjectService: SubjectService,
     private assignmentService: AssignmentService,
     private studentService: StudentService,
-    private studentAssignmentPointsService: StudentAssigmentPointsService
+    private studentAssignmentPointsService: StudentAssigmentPointsService,
+    private router: Router
   ) {}
 
   assignmentTypesFilter = Object.values(AssignmentType).filter(
@@ -74,7 +75,7 @@ export class ClassDetailComponent implements OnInit {
       this.currentSemester === Semester['1.Semester']
         ? Semester['2.Semester']
         : Semester['1.Semester'];
-
+    this.isEditEnabled = false; // Reset edit mode
     this.updateAssignments();
   }
 
@@ -84,6 +85,7 @@ export class ClassDetailComponent implements OnInit {
       10
     ) as AssignmentType;
     this.currentAssignment = assignmentType;
+    this.isEditEnabled = false; // Reset edit mode
     this.updateAssignments();
   }
   updateAssignments() {
@@ -92,6 +94,7 @@ export class ClassDetailComponent implements OnInit {
   }
 
   onSubjectChange(): void {
+    this.isEditEnabled = false; // Reset edit mode
     this.updateAssignments();
   }
 
@@ -105,6 +108,7 @@ export class ClassDetailComponent implements OnInit {
 
   private fetchAssignments(): void {
     if (this.selectedSubject !== undefined) {
+      this.pkSubject = this.selectedSubject;
       this.assignmentService
         .getAssignmentsBySubjectId(this.selectedSubject)
         .subscribe(
@@ -212,9 +216,25 @@ export class ClassDetailComponent implements OnInit {
       .updateStudentAssignment(studentAssignmentId, updatePayload)
       .subscribe(
         () => {
-          this.fetchStudentAssignments();
+          const studentAssignmentIndex = this.studentAssignments.findIndex(
+            (sa) => sa.studentAssignmentPk === studentAssignmentId
+          );
+          if (studentAssignmentIndex !== -1) {
+            this.studentAssignments[studentAssignmentIndex].points = newPoints;
+          }
         },
         (error) => console.error('Error updating points:', error)
       );
+  }
+  navigateAddAssignment() {
+    if (this.pkSubject && this.class) {
+      const classId = this.class.pkClass;
+      this.router.navigate([
+        '/class',
+        classId,
+        this.pkSubject,
+        'add-assignment',
+      ]);
+    }
   }
 }

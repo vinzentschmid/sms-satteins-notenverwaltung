@@ -1,10 +1,8 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import {
-  Assignment,
-  AssignmentType,
-  Semester,
-} from 'src/model/model.assignment';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AssignmentType, Semester } from 'src/model/model.assignment';
+import { SaveAssignment } from 'src/model/model.saveassignment';
+
 import { AssignmentService } from 'src/service/service.assignment';
 
 @Component({
@@ -12,34 +10,41 @@ import { AssignmentService } from 'src/service/service.assignment';
   templateUrl: './add-assignment.component.html',
   styleUrls: ['./add-assignment.component.scss'],
 })
-export class AddAssignmentComponent {
-  newAssignment: Assignment = {
-    assignmentPk: 0,
-    creationDate: new Date(),
-    reachablePoints: 0,
-    type: AssignmentType.Test,
-    semster: Semester['1.Semester'],
-  };
-
+export class AddAssignmentComponent implements OnInit {
   subjectId!: number;
-
-  assignmentTypes = Object.values(AssignmentType);
-  semesters = Object.values(Semester);
+  classId!: number;
+  newAssignment: SaveAssignment;
+  assignmentTypes = ['Test', 'Check', 'Homework', 'Framework', 'Total'];
+  semesters = ['FirstSemester', 'SecondSemester'];
 
   constructor(
     private assignmentService: AssignmentService,
-    private route: ActivatedRoute
-  ) {}
+    private activatedRoute: ActivatedRoute,
+    private router: Router // Inject the Router
+  ) {
+    this.newAssignment = new SaveAssignment(
+      new Date(),
+      0,
+      0, // Will be set in ngOnInit
+      'Test',
+      'FirstSemester'
+    );
+  }
 
-  onInit(): void {
-    this.route.params.subscribe((params) => {
-      // Retrieve the subject_id parameter from the route
-      this.subjectId = +params['subject_id'];
-    });
+  ngOnInit() {
+    this.subjectId = Number(
+      this.activatedRoute.snapshot.paramMap.get('subject_id')
+    );
+    this.classId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.newAssignment.subjectFk = this.subjectId;
   }
 
   onSubmit(): void {
-    //this.assignmentService.addAssignment(this.newAssignment, this.subjectId);
-    // You can reset the form or perform any other actions after adding the assignment.
+    this.assignmentService.createAssignment(this.newAssignment).subscribe({
+      next: () => {
+        this.router.navigate(['/class', this.classId]);
+      },
+      error: (error) => console.error('Error creating assignment:', error),
+    });
   }
 }
