@@ -6,6 +6,7 @@ import {
 } from '../model/model.assignment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
+import { SaveAssignment } from 'src/model/model.saveassignment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,10 @@ export class AssignmentService {
 
   constructor(private http: HttpClient) {}
 
+  createAssignment(assignment: SaveAssignment): Observable<SaveAssignment> {
+    return this.http.post<SaveAssignment>(this.apiUrl, assignment);
+  }
+
   getAssignmentsBySubjectId(subjectId: number): Observable<Assignment[]> {
     return this.http
       .get<any[]>(`${this.apiUrl}/BySubject/${subjectId}`)
@@ -23,11 +28,12 @@ export class AssignmentService {
           assignments.map(
             (a) =>
               new Assignment(
-                a.assignmentPk,
                 new Date(a.creationDate),
                 a.reachablePoints,
+                a.subjectFk,
                 this.mapAssignmentType(a.assignmentType),
-                this.mapSemester(a.semester)
+                this.mapSemester(a.semester),
+                a.assignmentPk
               )
           )
         )
