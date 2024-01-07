@@ -21,12 +21,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddDefaultIdentity<Teacher>(options =>
-    {
-        options.SignIn.RequireConfirmedAccount = false;
-        options.SignIn.RequireConfirmedEmail = false;
-    })
-    .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddAuthentication();
 
@@ -84,6 +79,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.MapGroup("/identity").MapIdentityApi<IdentityUser>();
 app.UseHttpsRedirection();
 
 app.UseCors("AllowSpecificOrigin");
@@ -105,5 +101,4 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
 });
 
-app.MapGroup("api/auth").MapIdentityApi<Teacher>();
 app.Run();

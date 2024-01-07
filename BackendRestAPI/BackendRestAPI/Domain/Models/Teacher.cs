@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using BackendRestAPI.Models;
+﻿
 using Microsoft.AspNetCore.Identity;
 
 namespace BackendRestAPI.Domain.Models;
 
-public sealed class Teacher : IdentityUser<int>
+public sealed class Teacher
 {
     public int PkTeacher { get; set; }
 
@@ -20,10 +19,6 @@ public sealed class Teacher : IdentityUser<int>
 
     public ICollection<ClassTeacher> ClassTeachers { get; set; } = new List<ClassTeacher>();
     
-    [NotMapped]
-    public override string NormalizedUserName { get; set; }
-    [NotMapped]
-    public override string NormalizedEmail { get; set; }
 
 }
 public class ApplicationRole : IdentityRole<int>

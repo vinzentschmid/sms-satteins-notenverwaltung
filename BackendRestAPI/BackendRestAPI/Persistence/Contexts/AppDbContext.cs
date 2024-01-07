@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackendRestAPI.Persistence.Contexts;
 
-public class AppDbContext : IdentityDbContext<Teacher, IdentityRole<int>, int>
+public class AppDbContext : IdentityDbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -156,13 +156,13 @@ public class AppDbContext : IdentityDbContext<Teacher, IdentityRole<int>, int>
             //entity.Ignore(u => u.NormalizedUserName);
             //entity.Ignore(u => u.NormalizedEmail);
 
-            entity.HasKey(e => e.PkTeacher).HasName("pk_teacher");
+            entity.HasKey(e => e.PkTeacher).HasName("teacher_pk");
 
             entity.ToTable("teachers");
 
             entity.Property(e => e.PkTeacher)
                 .ValueGeneratedNever()
-                .HasColumnName("pk_teacher");
+                .HasColumnName("teacher_pk");
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .HasColumnName("email");
