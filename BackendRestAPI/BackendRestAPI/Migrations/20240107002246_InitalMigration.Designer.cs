@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BackendRestAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231230011329_Inital")]
-    partial class Inital
+    [Migration("20240107002246_InitalMigration")]
+    partial class InitalMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,206 +23,12 @@ namespace BackendRestAPI.Migrations
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_assignment_type", new[] { "test", "homework", "check", "framework" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_semester", new[] { "first_semester", "second_semester" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BackendRestAPI.Domain.Models.Assignment", b =>
-                {
-                    b.Property<int>("AssignmentPk")
-                        .HasColumnType("integer")
-                        .HasColumnName("assignment_pk");
-
-                    b.Property<string>("AssignmentType")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("assignment_type");
-
-                    b.Property<DateOnly>("CreationDate")
-                        .HasColumnType("date")
-                        .HasColumnName("creation_date");
-
-                    b.Property<int>("ReachablePoints")
-                        .HasColumnType("integer")
-                        .HasColumnName("reachable_points");
-
-                    b.Property<string>("Semester")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("semester");
-
-                    b.Property<int?>("SubjectFk")
-                        .HasColumnType("integer")
-                        .HasColumnName("subject_fk");
-
-                    b.HasKey("AssignmentPk")
-                        .HasName("assignment_pk");
-
-                    b.HasIndex("SubjectFk");
-
-                    b.ToTable("assignment", (string)null);
-                });
-
-            modelBuilder.Entity("BackendRestAPI.Domain.Models.Class", b =>
-                {
-                    b.Property<int>("PkClass")
-                        .HasColumnType("integer")
-                        .HasColumnName("pk_class");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("name");
-
-                    b.Property<DateOnly>("Year")
-                        .HasColumnType("date")
-                        .HasColumnName("year");
-
-                    b.HasKey("PkClass")
-                        .HasName("class_pk");
-
-                    b.ToTable("class_table", (string)null);
-                });
-
-            modelBuilder.Entity("BackendRestAPI.Domain.Models.Subject", b =>
-                {
-                    b.Property<int>("PkSubject")
-                        .HasColumnType("integer")
-                        .HasColumnName("pk_subject");
-
-                    b.Property<int>("ClassFk")
-                        .HasColumnType("integer")
-                        .HasColumnName("class_fk");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("name");
-
-                    b.HasKey("PkSubject")
-                        .HasName("subject_pk");
-
-                    b.HasIndex("ClassFk");
-
-                    b.ToTable("subject", (string)null);
-                });
-
-            modelBuilder.Entity("BackendRestAPI.Domain.Models.Teacher", b =>
-                {
-                    b.Property<int>("PkTeacher")
-                        .HasColumnType("integer")
-                        .HasColumnName("pk_teacher");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("email");
-
-                    b.Property<string>("FirstTitle")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("first_title");
-
-                    b.Property<string>("LastTitle")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("last_title");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("name");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("password");
-
-                    b.HasKey("PkTeacher")
-                        .HasName("teacher_pk");
-
-                    b.ToTable("teachers", (string)null);
-                });
-
-            modelBuilder.Entity("BackendRestAPI.Models.ClassTeacher", b =>
-                {
-                    b.Property<int>("ClassTeacherPk")
-                        .HasColumnType("integer")
-                        .HasColumnName("class_teacher_pk");
-
-                    b.Property<int?>("ClassFk")
-                        .HasColumnType("integer")
-                        .HasColumnName("class_fk");
-
-                    b.Property<int?>("TeacherFk")
-                        .HasColumnType("integer")
-                        .HasColumnName("teacher_fk");
-
-                    b.HasKey("ClassTeacherPk")
-                        .HasName("class_teacher_pk");
-
-                    b.HasIndex("ClassFk");
-
-                    b.HasIndex("TeacherFk");
-
-                    b.ToTable("class_teacher", (string)null);
-                });
-
-            modelBuilder.Entity("BackendRestAPI.Models.Student", b =>
-                {
-                    b.Property<int>("PkStudent")
-                        .HasColumnType("integer")
-                        .HasColumnName("pk_student");
-
-                    b.Property<int?>("FkClass")
-                        .HasColumnType("integer")
-                        .HasColumnName("fk_class");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("name");
-
-                    b.HasKey("PkStudent")
-                        .HasName("student_pk");
-
-                    b.HasIndex("FkClass");
-
-                    b.ToTable("student", (string)null);
-                });
-
-            modelBuilder.Entity("BackendRestAPI.Models.StudentAssignment", b =>
-                {
-                    b.Property<int>("StudentAssignmentPk")
-                        .HasColumnType("integer")
-                        .HasColumnName("student_assignment_pk");
-
-                    b.Property<int>("AssignmentFk")
-                        .HasColumnType("integer")
-                        .HasColumnName("assignment_fk");
-
-                    b.Property<int>("Points")
-                        .HasColumnType("integer")
-                        .HasColumnName("points");
-
-                    b.Property<int>("StudentFk")
-                        .HasColumnType("integer")
-                        .HasColumnName("student_fk");
-
-                    b.HasKey("StudentAssignmentPk")
-                        .HasName("student_assignment_pk");
-
-                    b.HasIndex("AssignmentFk");
-
-                    b.HasIndex("StudentFk");
-
-                    b.ToTable("student_assignment", (string)null);
-                });
-
+            
+            
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -429,6 +235,27 @@ namespace BackendRestAPI.Migrations
                     b.Navigation("SubjectFkNavigation");
                 });
 
+            modelBuilder.Entity("BackendRestAPI.Domain.Models.ClassTeacher", b =>
+                {
+                    b.HasOne("BackendRestAPI.Domain.Models.Class", "ClassFkNavigation")
+                        .WithMany("ClassTeachers")
+                        .HasForeignKey("ClassFk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("class_fk");
+
+                    b.HasOne("BackendRestAPI.Domain.Models.Teacher", "TeacherFkNavigation")
+                        .WithMany("ClassTeachers")
+                        .HasForeignKey("TeacherFk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("teacher_fk");
+
+                    b.Navigation("ClassFkNavigation");
+
+                    b.Navigation("TeacherFkNavigation");
+                });
+
             modelBuilder.Entity("BackendRestAPI.Domain.Models.Subject", b =>
                 {
                     b.HasOne("BackendRestAPI.Domain.Models.Class", "ClassFkNavigation")
@@ -439,23 +266,6 @@ namespace BackendRestAPI.Migrations
                         .HasConstraintName("class_fk");
 
                     b.Navigation("ClassFkNavigation");
-                });
-
-            modelBuilder.Entity("BackendRestAPI.Models.ClassTeacher", b =>
-                {
-                    b.HasOne("BackendRestAPI.Domain.Models.Class", "ClassFkNavigation")
-                        .WithMany("ClassTeachers")
-                        .HasForeignKey("ClassFk")
-                        .HasConstraintName("class_fk");
-
-                    b.HasOne("BackendRestAPI.Domain.Models.Teacher", "TeacherFkNavigation")
-                        .WithMany("ClassTeachers")
-                        .HasForeignKey("TeacherFk")
-                        .HasConstraintName("teacher_fk");
-
-                    b.Navigation("ClassFkNavigation");
-
-                    b.Navigation("TeacherFkNavigation");
                 });
 
             modelBuilder.Entity("BackendRestAPI.Models.Student", b =>

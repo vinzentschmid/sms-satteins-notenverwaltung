@@ -20,6 +20,8 @@ namespace BackendRestAPI.Migrations
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_assignment_type", new[] { "test", "homework", "check", "framework" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "e_semester", new[] { "first_semester", "second_semester" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("BackendRestAPI.Domain.Models.Assignment", b =>
@@ -80,6 +82,30 @@ namespace BackendRestAPI.Migrations
                     b.ToTable("class_table", (string)null);
                 });
 
+            modelBuilder.Entity("BackendRestAPI.Domain.Models.ClassTeacher", b =>
+                {
+                    b.Property<int>("ClassTeacherPk")
+                        .HasColumnType("integer")
+                        .HasColumnName("class_teacher_pk");
+
+                    b.Property<int>("ClassFk")
+                        .HasColumnType("integer")
+                        .HasColumnName("class_fk");
+
+                    b.Property<int>("TeacherFk")
+                        .HasColumnType("integer")
+                        .HasColumnName("teacher_fk");
+
+                    b.HasKey("ClassTeacherPk")
+                        .HasName("class_teacher_pk");
+
+                    b.HasIndex("ClassFk");
+
+                    b.HasIndex("TeacherFk");
+
+                    b.ToTable("class_teacher", (string)null);
+                });
+
             modelBuilder.Entity("BackendRestAPI.Domain.Models.Subject", b =>
                 {
                     b.Property<int>("PkSubject")
@@ -106,25 +132,15 @@ namespace BackendRestAPI.Migrations
 
             modelBuilder.Entity("BackendRestAPI.Domain.Models.Teacher", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PkTeacher")
                         .HasColumnType("integer")
-                        .HasColumnName("Id");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
+                        .HasColumnName("teacher_pk");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("email");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("FirstTitle")
                         .HasMaxLength(255)
@@ -136,67 +152,22 @@ namespace BackendRestAPI.Migrations
                         .HasColumnType("character varying(255)")
                         .HasColumnName("last_title");
 
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("password");
 
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
-                        .HasColumnName("UserName");
+                        .HasColumnName("name");
 
-                    b.HasKey("Id")
-                        .HasName("Id");
+                    b.HasKey("PkTeacher")
+                        .HasName("teacher_pk");
 
                     b.ToTable("teachers", (string)null);
-                });
-
-            modelBuilder.Entity("BackendRestAPI.Models.ClassTeacher", b =>
-                {
-                    b.Property<int>("ClassTeacherPk")
-                        .HasColumnType("integer")
-                        .HasColumnName("class_teacher_pk");
-
-                    b.Property<int?>("ClassFk")
-                        .HasColumnType("integer")
-                        .HasColumnName("class_fk");
-
-                    b.Property<int?>("TeacherFk")
-                        .HasColumnType("integer")
-                        .HasColumnName("teacher_fk");
-
-                    b.HasKey("ClassTeacherPk")
-                        .HasName("class_teacher_pk");
-
-                    b.HasIndex("ClassFk");
-
-                    b.HasIndex("TeacherFk");
-
-                    b.ToTable("class_teacher", (string)null);
                 });
 
             modelBuilder.Entity("BackendRestAPI.Models.Student", b =>
@@ -251,13 +222,10 @@ namespace BackendRestAPI.Migrations
                     b.ToTable("student_assignment", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -280,7 +248,7 @@ namespace BackendRestAPI.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -294,8 +262,9 @@ namespace BackendRestAPI.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("text");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("integer");
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -304,7 +273,71 @@ namespace BackendRestAPI.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -318,8 +351,9 @@ namespace BackendRestAPI.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("text");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -328,21 +362,20 @@ namespace BackendRestAPI.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -351,13 +384,13 @@ namespace BackendRestAPI.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("integer");
+                    b.Property<string>("RoleId")
+                        .HasColumnType("text");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -366,18 +399,16 @@ namespace BackendRestAPI.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
@@ -397,6 +428,27 @@ namespace BackendRestAPI.Migrations
                     b.Navigation("SubjectFkNavigation");
                 });
 
+            modelBuilder.Entity("BackendRestAPI.Domain.Models.ClassTeacher", b =>
+                {
+                    b.HasOne("BackendRestAPI.Domain.Models.Class", "ClassFkNavigation")
+                        .WithMany("ClassTeachers")
+                        .HasForeignKey("ClassFk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("class_fk");
+
+                    b.HasOne("BackendRestAPI.Domain.Models.Teacher", "TeacherFkNavigation")
+                        .WithMany("ClassTeachers")
+                        .HasForeignKey("TeacherFk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("teacher_fk");
+
+                    b.Navigation("ClassFkNavigation");
+
+                    b.Navigation("TeacherFkNavigation");
+                });
+
             modelBuilder.Entity("BackendRestAPI.Domain.Models.Subject", b =>
                 {
                     b.HasOne("BackendRestAPI.Domain.Models.Class", "ClassFkNavigation")
@@ -407,23 +459,6 @@ namespace BackendRestAPI.Migrations
                         .HasConstraintName("class_fk");
 
                     b.Navigation("ClassFkNavigation");
-                });
-
-            modelBuilder.Entity("BackendRestAPI.Models.ClassTeacher", b =>
-                {
-                    b.HasOne("BackendRestAPI.Domain.Models.Class", "ClassFkNavigation")
-                        .WithMany("ClassTeachers")
-                        .HasForeignKey("ClassFk")
-                        .HasConstraintName("class_fk");
-
-                    b.HasOne("BackendRestAPI.Domain.Models.Teacher", "TeacherFkNavigation")
-                        .WithMany("ClassTeachers")
-                        .HasForeignKey("TeacherFk")
-                        .HasConstraintName("teacher_fk");
-
-                    b.Navigation("ClassFkNavigation");
-
-                    b.Navigation("TeacherFkNavigation");
                 });
 
             modelBuilder.Entity("BackendRestAPI.Models.Student", b =>
@@ -457,51 +492,51 @@ namespace BackendRestAPI.Migrations
                     b.Navigation("StudentFkNavigation");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("BackendRestAPI.Domain.Models.Teacher", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("BackendRestAPI.Domain.Models.Teacher", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BackendRestAPI.Domain.Models.Teacher", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("BackendRestAPI.Domain.Models.Teacher", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
