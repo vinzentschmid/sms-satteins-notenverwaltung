@@ -49,5 +49,5 @@ jobs:
         run: docker run --name db -d schmidvinzent/dbnotenverwaltung:$VERSION
   
       - name: Create SQL backup
-        run: docker exec db pg_dump -U postgres postgres > ./backupDatabase/backup_$VERSION.sql
+        run: docker exec -it db pg_dump -U postgres postgres > ./backupDatabase/backup_$VERSION.sql
 
