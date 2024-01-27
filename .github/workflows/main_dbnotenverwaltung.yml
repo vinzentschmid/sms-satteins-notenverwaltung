@@ -40,5 +40,5 @@ jobs:
         run: docker run --name dbnotenverwaltung -d ghcr.io/vinzentschmid/sms-satteins-notenverwaltung/postgres:alpine
 
       - name: Create SQL backup
-        run: docker exec db pg_dump -U postgres postgres > ./backupDatabase/backup_$VERSION.sql
+        run: docker exec dbnotenverwaltung pg_dump -U postgres postgres > ./backupDatabase/backup_$VERSION.sql
 
