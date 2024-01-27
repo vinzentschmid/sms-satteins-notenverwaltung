@@ -3,11 +3,12 @@
 
 name: Build and deploy ASP.Net Core app to Azure Web App - restapinotenverwaltung
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+#on:
+ # push:
+   # branches:
+     # - main
+     
+workflow_dispatch:
 
 jobs:
   build:
