@@ -27,21 +27,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.SECRET_GITHUB_TOKEN }}
 
-      - name: Pull the latest image
-        run: docker pull ghcr.io/vinzentschmid/sms-satteins-notenverwaltung/postgres:alpine
-
-      - name: Tag the image with the new version
-        run: docker tag schmidvinzent/dbnotenverwaltung:latest ghcr.io/vinzentschmid/sms-satteins-notenverwaltung/postgres:$VERSION
-
-      - name: Tag the image with the new version
-        run: docker tag schmidvinzent/dbnotenverwaltung:latest schmidvinzent/dbnotenverwaltung:$VERSION
-
-      - name: Push the image to GitHub Packages
-        run: docker push ghcr.io/vinzentschmid/sms-satteins-notenverwaltung/postgres:$VERSION
-
       - name: Login to Docker Hub
         run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login --username schmidvinzent --password-stdin
-
+        
+      - name: Pull the docker image
+        run: docker pull schmidvinzent/dbnotenverwaltung:latest
+      
+      - name: Tag the image with the new version
+        run: docker tag schmidvinzent/dbnotenverwaltung:latest schmidvinzent/dbnotenverwaltung:$VERSION
+      
       - name: Push the image to Docker Hub
         run: docker push schmidvinzent/dbnotenverwaltung:$VERSION
 
