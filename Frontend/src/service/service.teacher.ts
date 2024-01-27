@@ -12,6 +12,8 @@ export class TeacherService {
   constructor(private http: HttpClient) {}
 
   getTeacherById(id: number): Observable<Teacher> {
-    return this.http.get<Teacher>(`${this.apiUrl}/${id}`);
+    return this.http.get<Teacher>(`${this.apiUrl}/${id}`, {
+      withCredentials: true,
+    });
   }
 }

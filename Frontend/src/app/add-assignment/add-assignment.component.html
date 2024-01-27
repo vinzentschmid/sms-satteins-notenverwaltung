@@ -1,24 +1,28 @@
+
 <form (ngSubmit)="onSubmit()">
-  <!-- Assignment Type -->
-  <label for="type">Type:</label>
-  <select id="type" [(ngModel)]="newAssignment.assignmentType" name="type">
-    <option *ngFor="let type of assignmentTypes" [ngValue]="type">{{ type }}</option>
-  </select>
+  <div class="spacer">
+    <h2>ADD</h2>
+    <!-- Assignment Type -->
+    <label for="type">Type:</label>
+    <select id="type" [(ngModel)]="newAssignment.assignmentType" name="type">
+      <option *ngFor="let type of assignmentTypes" [ngValue]="type">{{ type }}</option>
+    </select>
 
-  <!-- Semester -->
-  <label for="semester">Semester:</label>
-  <select id="semester" [(ngModel)]="newAssignment.semester" name="semester">
-    <option *ngFor="let sem of semesters" [ngValue]="sem">{{ sem }}</option>
-  </select>
+    <!-- Semester -->
+    <label for="semester">Semester:</label>
+    <select id="semester" [(ngModel)]="newAssignment.semester" name="semester">
+      <option *ngFor="let sem of semesters" [ngValue]="sem">{{ sem }}</option>
+    </select>
 
-  <!-- Creation Date -->
-  <label for="creationDate">Creation Date:</label>
-  <input type="date" id="creationDate" [(ngModel)]="newAssignment.creationDate" name="creationDate">
+    <!-- Creation Date -->
+    <label for="creationDate">Creation Date:</label>
+    <input type="date" id="creationDate" [(ngModel)]="newAssignment.creationDate" name="creationDate">
 
-  <!-- Reachable Points -->
-  <label for="reachablePoints">Reachable Points:</label>
-  <input type="number" id="reachablePoints" [(ngModel)]="newAssignment.reachablePoints" name="reachablePoints">
+    <!-- Reachable Points -->
+    <label for="reachablePoints">Reachable Points:</label>
+    <input type="number" id="reachablePoints" [(ngModel)]="newAssignment.reachablePoints" name="reachablePoints">
 
-  <!-- Submit Button -->
-  <button type="submit">Add Assignment</button>
+    <!-- Submit Button -->
+    <button type="submit">Add Assignment</button>
+  </div>
 </form>

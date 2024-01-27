@@ -12,6 +12,8 @@ export class SubjectService {
   constructor(private http: HttpClient) {}
 
   getSubjectsByClassId(classId: number): Observable<Subject[]> {
-    return this.http.get<Subject[]>(`${this.apiUrl}/ByClass/${classId}`);
+    return this.http.get<Subject[]>(`${this.apiUrl}/ByClass/${classId}`, {
+      withCredentials: true,
+    });
   }
 }

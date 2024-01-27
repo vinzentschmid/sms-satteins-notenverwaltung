@@ -4,11 +4,12 @@ using BackendRestAPI.Domain.Services;
 using BackendRestAPI.Extensions;
 using BackendRestAPI.Models;
 using BackendRestAPI.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Elfie.Serialization;
 
 namespace BackendRestAPI.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class AssignmentsController : ControllerBase

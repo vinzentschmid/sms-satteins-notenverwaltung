@@ -28,7 +28,9 @@ builder.Services.AddAuthentication();
 builder.Services.AddCors(options => options.AddPolicy("AllowSpecificOrigin",
     policyBuilder => policyBuilder.WithOrigins("http://localhost:4200")
         .AllowAnyHeader()
-        .AllowAnyMethod()));
+        .AllowAnyMethod()
+        .AllowCredentials()
+    ));
 
 // Registering Repositories
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
@@ -94,6 +96,7 @@ app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
     c.RoutePrefix = string.Empty; // Serve the Swagger UI at the root (root URL)
+   
 });
 
 app.UseEndpoints(endpoints =>

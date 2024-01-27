@@ -13,10 +13,14 @@ export class StudentAssigmentPointsService {
   constructor(private http: HttpClient) {}
 
   getStudentAssignments(): Observable<StudentAssignment[]> {
-    return this.http.get<StudentAssignment[]>(this.apiUrl);
+    return this.http.get<StudentAssignment[]>(this.apiUrl, {
+      withCredentials: true,
+    });
   }
 
   updateStudentAssignment(assignmentId: number, payload: any): Observable<any> {
-    return this.http.put(`${this.apiUrl2}/${assignmentId}`, payload);
+    return this.http.put(`${this.apiUrl2}/${assignmentId}`, payload, {
+      withCredentials: true,
+    });
   }
 }

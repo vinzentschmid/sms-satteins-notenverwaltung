@@ -5,10 +5,12 @@ using BackendRestAPI.Domain.Models;
 using BackendRestAPI.Domain.Services;
 using BackendRestAPI.Models;
 using BackendRestAPI.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackendRestAPI.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class ClassesController : ControllerBase
