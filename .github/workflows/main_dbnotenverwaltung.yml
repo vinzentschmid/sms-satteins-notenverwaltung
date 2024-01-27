@@ -35,3 +35,6 @@ jobs:
 
       - name: Push the image to GitHub Packages
         run: docker push ghcr.io/vinzentschmid/sms-satteins-notenverwaltung/postgres:$VERSION
+
+      - name: Create SQL backup with version
+        run: docker exec db pg_dump -U postgres postgres > ./migrationDatabase/backup_$VERSION.sql
