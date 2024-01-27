@@ -15,7 +15,10 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-
+        
+      - name: Generate version number
+        id: versioning
+        run: echo "VERSION=$(date +'%Y%m%d%H%M')" >> $GITHUB_ENV
 
       - name: Pull the docker image
         run: docker pull schmidvinzent/dbnotenverwaltung:latest
