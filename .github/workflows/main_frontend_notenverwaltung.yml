@@ -23,6 +23,9 @@ jobs:
         with:
           node-version: '18.x' # Specify your Node.js version
 
+      - name: Change to Angular project directory
+        run: cd Frontend
+
       - name: Install dependencies
         run: npm install
 
