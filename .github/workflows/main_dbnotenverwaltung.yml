@@ -34,15 +34,17 @@ jobs:
         run: docker pull schmidvinzent/dbnotenverwaltung:latest
       
       - name: Tag the image with the new version
-        run: docker tag schmidvinzent/dbnotenverwaltung:latest schmidvinzent/dbnotenverwaltung:$VERSION
+        run: docker tag schmidvinzent/dbnotenverwaltung:latest schmidvinzent/dbnotenverwaltung:latest
+
+      - name: Run Docker Container
+        run: docker run --name db -d schmidvinzent/dbnotenverwaltung:latest
+  
+      - name: Create SQL backup
+        run: docker exec db pg_dump -U postgres postgres > ./backupDatabase/backup_$VERSION.sql
       
       - name: Push the image to Docker Hub
         run: docker push schmidvinzent/dbnotenverwaltung:$VERSION
 
-      - name: Run Docker Container
-        run: docker run --name db -d schmidvinzent/dbnotenverwaltung:$VERSION
-  
-      - name: Create SQL backup
-        run: docker exec db pg_dump -U postgres postgres > ./backupDatabase/backup_$VERSION.sql
+     
 
 
