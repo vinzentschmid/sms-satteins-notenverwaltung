@@ -31,10 +31,10 @@ jobs:
         run: docker pull ghcr.io/vinzentschmid/sms-satteins-notenverwaltung/postgres:alpine
 
       - name: Tag the image with the new version
-        run: docker tag ghcr.io/vinzentschmid/sms-satteins-notenverwaltung/postgres:alpine ghcr.io/vinzentschmid/sms-satteins-notenverwaltung/postgres:$VERSION
+        run: docker tag schmidvinzent/dbnotenverwaltung:latest ghcr.io/vinzentschmid/sms-satteins-notenverwaltung/postgres:$VERSION
 
       - name: Tag the image with the new version
-        run: docker tag ghcr.io/vinzentschmid/sms-satteins-notenverwaltung/postgres:alpine schmidvinzent/dbnotenverwaltung:$VERSION
+        run: docker tag schmidvinzent/dbnotenverwaltung:latest schmidvinzent/dbnotenverwaltung:$VERSION
 
       - name: Push the image to GitHub Packages
         run: docker push ghcr.io/vinzentschmid/sms-satteins-notenverwaltung/postgres:$VERSION
