@@ -39,5 +39,9 @@ jobs:
       - name: Start the database container
         run: docker run --name db -d ghcr.io/vinzentschmid/sms-satteins-notenverwaltung/postgres:alpine
 
-      - name: Create SQL backup with version
+      - name: Wait for database to be ready
+        run: sleep 10 # Warten Sie einige Sekunden, um dem Container Zeit zum Starten zu geben
+
+      - name: Create SQL backup
         run: docker exec db pg_dump -U postgres postgres > ./backupDatabase/backup_$VERSION.sql
+
