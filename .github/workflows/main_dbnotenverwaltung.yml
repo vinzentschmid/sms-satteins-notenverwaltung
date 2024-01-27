@@ -27,7 +27,7 @@ jobs:
         run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login --username schmidvinzent --password-stdin
         
       - name: Start the container
-        run: docker start db
+        run: docker start dbnotenverwaltung
  
       - name: Create SQL backup
         run: docker exec db pg_dump -U postgres postgres > ./backupDatabase/backup_$VERSION.sql
