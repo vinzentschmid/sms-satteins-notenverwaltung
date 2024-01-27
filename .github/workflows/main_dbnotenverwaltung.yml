@@ -20,20 +20,34 @@ jobs:
         id: versioning
         run: echo "VERSION=$(date +'%Y%m%d%H%M')" >> $GITHUB_ENV
 
-      - name: Pull the docker image
-        run: docker pull schmidvinzent/dbnotenverwaltung:latest
+     # - name: Pull the docker image
+       # run: docker pull schmidvinzent/dbnotenverwaltung:latest
         
-      - name: Login to Docker Hub
-        run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login --username schmidvinzent --password-stdin
+     # - name: Login to Docker Hub
+       # run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login --username schmidvinzent --password-stdin
         
-      - name: Start the container
-        run: docker start dbnotenverwaltung
+      #- name: Start the container
+        #run: docker start dbnotenverwaltung
  
-      - name: Create SQL backup
-        run: docker exec db pg_dump -U postgres postgres > ./backupDatabase/backup_$VERSION.sql
+      #- name: Create SQL backup
+        #run: docker exec db pg_dump -U postgres postgres > ./backupDatabase/backup_$VERSION.sql
         
-      - name: Push the image to Docker Hub
-        run: docker push schmidvinzent/dbnotenverwaltung:latest
+      #- name: Push the image to Docker Hub
+        #run: docker push schmidvinzent/dbnotenverwaltung:latest
+
+      - name: Set up PostgreSQL client
+        run: |
+          sudo apt-get install postgresql-client
+
+      - name: Drop and Recreate Schema
+        run: |
+           PGPASSWORD=${{ secrets.DB_PASSWORD }} psql -h dbnotenverwaltung.postgres.database.azure.com -U postgres -d postgres -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
+
+      - name: Drop and Recreate Schema
+        run: |
+           PGPASSWORD=${{ secrets.DB_PASSWORD }} psql -h dbnotenverwaltung.postgres.database.azure.com -U postgres -d postgres -f ./backupDatabase/backup.sql
+        env:
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
      
 
