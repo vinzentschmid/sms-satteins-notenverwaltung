@@ -21,11 +21,15 @@
         <p>Welcome back! Please login to your account</p>
       </div>
       <div class="formContainer">
-        <app-custom-input-field label="Email" type="text" ></app-custom-input-field>
-        <app-custom-input-field label="Password" type="password" ></app-custom-input-field>
+        <!-- In your component .html file -->
+        <form (ngSubmit)="onSubmit()">
+          <input type="email" [(ngModel)]="loginData.email" name="email" placeholder="Email">
+          <input type="password" [(ngModel)]="loginData.password" name="password" placeholder="Password">
+          <button type="submit">Login</button>
+        </form>
+
       </div>
       <div class="buttonContainer">
-        <button routerLink="/dashboard">LOGIN</button>
 
       </div>
     </div>

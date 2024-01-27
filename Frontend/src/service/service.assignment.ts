@@ -17,12 +17,16 @@ export class AssignmentService {
   constructor(private http: HttpClient) {}
 
   createAssignment(assignment: SaveAssignment): Observable<SaveAssignment> {
-    return this.http.post<SaveAssignment>(this.apiUrl, assignment);
+    return this.http.post<SaveAssignment>(this.apiUrl, assignment, {
+      withCredentials: true,
+    });
   }
 
   getAssignmentsBySubjectId(subjectId: number): Observable<Assignment[]> {
     return this.http
-      .get<any[]>(`${this.apiUrl}/BySubject/${subjectId}`)
+      .get<any[]>(`${this.apiUrl}/BySubject/${subjectId}`, {
+        withCredentials: true,
+      })
       .pipe(
         map((assignments) =>
           assignments.map(

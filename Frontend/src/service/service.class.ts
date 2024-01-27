@@ -12,11 +12,11 @@ export class ClassService {
   constructor(private http: HttpClient) {}
 
   getClasses(): Observable<Class[]> {
-    return this.http.get<Class[]>(this.apiUrl);
+    return this.http.get<Class[]>(this.apiUrl, { withCredentials: true });
   }
 
   getClassById(id: number): Observable<Class> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<Class>(url);
+    return this.http.get<Class>(url, { withCredentials: true });
   }
 }

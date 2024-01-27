@@ -1,0 +1,32 @@
+form{
+    .spacer{
+        display: flex;
+        flex-direction: column;
+        margin-left: 35px;
+        margin-right: 35px;
+        height: 100%;
+        button{
+            align-self: flex-end;
+        }
+    }
+    h2{
+        margin-top: 35px;
+        margin-bottom: 35px;
+    }
+    select, input{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        height: 50px;
+        border-radius: 10px;
+    }
+    button{
+        margin-top: 70px;
+    }
+    background-color: #348888;
+    margin-left: 70px;
+    margin-right: 35px;
+    height: 80vh;
+    border-radius: 10px;
+    
+    color: white;
+}
