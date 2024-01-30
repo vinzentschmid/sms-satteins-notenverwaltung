@@ -23,14 +23,13 @@ jobs:
         with:
           node-version: '18.x' # Specify your Node.js version
 
-      - name: Change to Angular project directory
-        run: cd Frontend
-
       - name: Install dependencies
         run: npm install
+        working-directory: ./Frontend # Fügen Sie dies hinzu, um das Arbeitsverzeichnis zu ändern
 
       - name: Build Angular app
         run: npm run build -- --configuration production
+        working-directory: ./Frontend # Fügen Sie dies hinzu, um das Arbeitsverzeichnis zu ändern
 
       - name: Login to Azure
         uses: azure/login@v1
