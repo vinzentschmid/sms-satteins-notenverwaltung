@@ -37,6 +37,7 @@ jobs:
           client-id: ${{ secrets.FRONTEND_CLIENTID }}
           tenant-id: ${{ secrets.FRONTEND_TENANTID }}
           subscription-id: ${{ secrets.FRONTEND_SUBSCRIPTIONID }}
+          principal-id: ${{ secrets.FRONTEND_PRINCIPALID }}
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
