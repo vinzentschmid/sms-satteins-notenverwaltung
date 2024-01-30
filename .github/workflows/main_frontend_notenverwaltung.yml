@@ -54,10 +54,14 @@ jobs:
             tenant-id: ${{ secrets.FRONTEND_TENANTID }}
             subscription-id: ${{ secrets.FRONTEND_SUBSCRIPTIONID }}
 
+        - name: Change to Frontend directory
+          run: cd Frontend
+          
         - name: Deploy to Azure Web App
           uses: azure/webapps-deploy@v2
           with:
             app-name: 'frontend'
             slot-name: 'Production'
             package: './dist/frontend'
+            
 
