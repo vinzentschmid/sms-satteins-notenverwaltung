@@ -24,7 +24,7 @@ jobs:
           node-version: '18.x' # Specify your Node.js version
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
         working-directory: ./Frontend # Fügen Sie dies hinzu, um das Arbeitsverzeichnis zu ändern
 
       - name: Build Angular app
