@@ -24,7 +24,7 @@ jobs:
         working-directory: ./Frontend 
 
       - name: Build Angular app
-        run: npm run build -- --configuration production
+        run: npm run build --configuration production
         working-directory: ./Frontend 
 
       - name: Upload build artifacts
