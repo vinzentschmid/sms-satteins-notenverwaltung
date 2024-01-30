@@ -31,10 +31,6 @@ jobs:
         run: npm run build -- --configuration production
         working-directory: ./Frontend # Fügen Sie dies hinzu, um das Arbeitsverzeichnis zu ändern
 
-      - name: Copy build to dist directory
-        run: |
-          mkdir -p ./dist/frontend
-          cp -R ./Frontend/build/* ./dist/frontend
 
 
   deploy:
