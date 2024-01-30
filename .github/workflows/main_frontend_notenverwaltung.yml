@@ -53,9 +53,9 @@ jobs:
         - name: Deploy to Azure Web App
           uses: azure/webapps-deploy@v2
           with:
-            app-name: 'frontend'
+            app-name: 'smssatteins'
             slot-name: 'Production'
-            package: './Frontend/dist'
+            package: './Frontend/dist/frontend'
 
             
 
