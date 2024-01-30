@@ -55,7 +55,7 @@ jobs:
           with:
             app-name: 'smssatteins'
             slot-name: 'Production'
-            package: './Frontend/dist'
+            package: './dist'
 
             
 
