@@ -1,13 +1,9 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and Deploy Angular App to Azure Web App
 
 on:
   push:
     branches:
       - main
-
   workflow_dispatch:
 
 jobs:
@@ -21,17 +17,21 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18.x' # Specify your Node.js version
+          node-version: '18.x' 
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
-        working-directory: ./Frontend # Fügen Sie dies hinzu, um das Arbeitsverzeichnis zu ändern
+        working-directory: ./Frontend 
 
       - name: Build Angular app
         run: npm run build -- --configuration production
-        working-directory: ./Frontend # Fügen Sie dies hinzu, um das Arbeitsverzeichnis zu ändern
+        working-directory: ./Frontend 
 
-
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: frontend-artifacts
+          path: ./Frontend/dist/frontend
 
   deploy:
     runs-on: ubuntu-latest
@@ -40,22 +40,25 @@ jobs:
       name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write 
 
     steps:
-        - name: Login to Azure
-          uses: azure/login@v1
-          with:
-            client-id: ${{ secrets.FRONTEND_CLIENTID }}
-            tenant-id: ${{ secrets.FRONTEND_TENANTID }}
-            subscription-id: ${{ secrets.FRONTEND_SUBSCRIPTIONID }}
-          
-        - name: Deploy to Azure Web App
-          uses: azure/webapps-deploy@v2
-          with:
-            app-name: 'smssatteins'
-            slot-name: 'Production'
-            package: 'dist/frontend'
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: frontend-artifacts
+          path: dist/frontend
 
-            
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.FRONTEND_CLIENTID }}
+          tenant-id: ${{ secrets.FRONTEND_TENANTID }}
+          subscription-id: ${{ secrets.FRONTEND_SUBSCRIPTIONID }}
 
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'smssatteins'
+          slot-name: 'Production'
+          package: './dist/frontend'
