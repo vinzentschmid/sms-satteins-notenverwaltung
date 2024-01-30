@@ -1,9 +1,6 @@
 name: Get the latest version of the database
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
@@ -12,28 +9,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        
-      - name: Generate version number
-        id: versioning
-        run: echo "VERSION=$(date +'%Y%m%d%H%M')" >> $GITHUB_ENV
-
-     # - name: Pull the docker image
-       # run: docker pull schmidvinzent/dbnotenverwaltung:latest
-        
-     # - name: Login to Docker Hub
-       # run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login --username schmidvinzent --password-stdin
-        
-      #- name: Start the container
-        #run: docker start dbnotenverwaltung
- 
-      #- name: Create SQL backup
-        #run: docker exec db pg_dump -U postgres postgres > ./backupDatabase/backup_$VERSION.sql
-        
-      #- name: Push the image to Docker Hub
-        #run: docker push schmidvinzent/dbnotenverwaltung:latest
 
       - name: Set up PostgreSQL client
         run: |
