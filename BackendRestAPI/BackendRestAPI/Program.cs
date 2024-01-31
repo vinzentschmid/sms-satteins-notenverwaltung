@@ -26,7 +26,7 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddEntityFrameworkStore
 builder.Services.AddAuthentication();
 
 builder.Services.AddCors(options => options.AddPolicy("AllowSpecificOrigin",
-    policyBuilder => policyBuilder.WithOrigins("http://localhost:4200")
+    policyBuilder => policyBuilder.WithOrigins("https://smssatteins.azurewebsites.net", "http://localhost:4200")
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials()
