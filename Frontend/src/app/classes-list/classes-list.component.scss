@@ -28,10 +28,6 @@
                 border-radius: 10px; 
                 margin-right: 35px;
                 margin-bottom: 15px;
-                &:hover {
-                    background-color: #FA7F08;
-                    color: #fff;
-                  }
                 a{
                     text-decoration: none;
                     text-align: center;
@@ -44,9 +40,22 @@
                     }
                 }
                
-                filter: invert(0);
-                transition: filter 0.2s ease-in-out;
+                transition: all 0.7s ease-in-out;
                
+            }
+            .class:hover{
+                transition: all 0.7s ease-in-out;
+                height: 200px;
+                width: 200px;
+                z-index: 20;
+                border: #FA7F08 10px solid;
+                a{
+                    cursor: pointer;
+
+                    h2{
+                        font-size: 30px;
+                    }
+                }
             }
             
             

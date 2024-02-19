@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http'; // Achten Sie darauf, HttpHeaders zu importieren
+import { Observable } from 'rxjs';
 import { Class } from '../model/model.class';
+import { AuthHeaderService } from './service.authheader';
 
 @Injectable({
   providedIn: 'root',
@@ -9,14 +10,23 @@ import { Class } from '../model/model.class';
 export class ClassService {
   private apiUrl = 'http://localhost:5013/api/Classes';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authHeaderService: AuthHeaderService
+  ) {} // Injizieren Sie den AuthHeaderService
 
   getClasses(): Observable<Class[]> {
-    return this.http.get<Class[]>(this.apiUrl, { withCredentials: true });
+    return this.http.get<Class[]>(this.apiUrl, {
+      headers: this.authHeaderService.getAuthHeaders(),
+      withCredentials: true,
+    });
   }
 
   getClassById(id: number): Observable<Class> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<Class>(url, { withCredentials: true });
+    return this.http.get<Class>(url, {
+      headers: this.authHeaderService.getAuthHeaders(),
+      withCredentials: true,
+    });
   }
 }

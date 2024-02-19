@@ -27,7 +27,6 @@ export enum AssignmentType {
   Check,
   Homework,
   Framework,
-  Total,
 }
 
 export enum Semester {

@@ -21,20 +21,36 @@
     <div class="assignmentTypes" *ngFor="let assignmentType of assignmentTypes | keyvalue">
       <button
         (click)="toggleAssignmentType(assignmentType.key)"
-        [ngStyle]="{ 'text-decoration': currentAssignment.toString() === assignmentType.key.toString() ? 'underline' : 'none' }"
+        [ngStyle]="{ 'text-decoration': !isTotalActive && currentAssignment.toString() === assignmentType.key ? 'underline' : 'none' }"
         >
         {{ assignmentType.value }}
       </button>
     </div>
+    <div class="assignmentTypes">
+      <button
+        (click)="toggleTotal()"
+        [ngStyle]="{ 'text-decoration': isTotalActive ? 'underline' : 'none' }"
+        >
+        Total
+      </button>
+    </div>
   </nav>
+
   <div class="table">
     <div class="headerTable" >
       <div>Name</div>
       <div *ngFor="let assignment of assignments">{{ assignment.creationDate | date:'dd.MM.yy'}}</div>
     </div>
+   
     <div class="contentTable" >
       <div class="studentColumn" *ngFor="let student of students">
         <div class="studentName">{{ student.name }}</div>
+        <div *ngIf="isTotalActive">
+          <li *ngFor="let type of assignmentTypesFilter; let i = index">
+             {{ totalPointsByType[i] }} points
+          </li>
+        </div>
+        
         <div  class="assignments" *ngFor="let assignment of assignments">
           <div class="noEditMode" *ngIf="!isEditEnabled; else editModeContent">
                <div>{{ getPointsForStudentAssignment(student, assignment) }}</div>
@@ -46,7 +62,7 @@
                    [name]="'studentPoint-' + student.pkStudent + '-' + assignment.assignmentPk">
           </ng-template>
           / {{ assignment.reachablePoints }}
-
+         
         </div>
       </div>
     </div>

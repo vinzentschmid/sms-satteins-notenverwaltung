@@ -7,6 +7,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { SaveAssignment } from 'src/model/model.saveassignment';
+import { AuthHeaderService } from './service.authheader';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +15,15 @@ import { SaveAssignment } from 'src/model/model.saveassignment';
 export class AssignmentService {
   private apiUrl = 'http://localhost:5013/api/Assignments';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authHeaderService: AuthHeaderService
+  ) {} // Injizieren Sie den AuthHeaderService
 
   createAssignment(assignment: SaveAssignment): Observable<SaveAssignment> {
     return this.http.post<SaveAssignment>(this.apiUrl, assignment, {
       withCredentials: true,
+      headers: this.authHeaderService.getAuthHeaders(),
     });
   }
 
@@ -26,6 +31,7 @@ export class AssignmentService {
     return this.http
       .get<any[]>(`${this.apiUrl}/BySubject/${subjectId}`, {
         withCredentials: true,
+        headers: this.authHeaderService.getAuthHeaders(),
       })
       .pipe(
         map((assignments) =>
@@ -54,8 +60,6 @@ export class AssignmentService {
         return AssignmentType.Homework;
       case 'Framework':
         return AssignmentType.Framework;
-      case 'Total':
-        return AssignmentType.Total;
       default:
         return AssignmentType.Test; // Default or throw error
     }

@@ -27,6 +27,9 @@ export class ClassDetailComponent implements OnInit {
   studentAssignments: StudentAssignment[] = [];
   private pkClass: number | undefined;
   private pkSubject: number | undefined;
+  AssignmentType = AssignmentType;
+  isTotalActive = false;
+  totalPointsByType: number[] = [0, 0, 0, 0];
 
   constructor(
     private classService: ClassService,
@@ -52,7 +55,6 @@ export class ClassDetailComponent implements OnInit {
     [AssignmentType.Check]: 'Check',
     [AssignmentType.Homework]: 'Homework',
     [AssignmentType.Framework]: 'Framework',
-    [AssignmentType.Total]: 'Total',
   };
 
   currentAssignment: AssignmentType = AssignmentType.Test;
@@ -76,6 +78,7 @@ export class ClassDetailComponent implements OnInit {
         ? Semester['2.Semester']
         : Semester['1.Semester'];
     this.isEditEnabled = false; // Reset edit mode
+
     this.updateAssignments();
   }
 
@@ -84,13 +87,30 @@ export class ClassDetailComponent implements OnInit {
       assignmentTypeKey,
       10
     ) as AssignmentType;
-    this.currentAssignment = assignmentType;
     this.isEditEnabled = false; // Reset edit mode
     this.updateAssignments();
+    if (this.isTotalActive) {
+      this.isTotalActive = false;
+    }
+    this.currentAssignment = assignmentType;
   }
   updateAssignments() {
-    this.fetchStudentAssignments();
-    this.fetchAssignments();
+    if (this.isTotalActive) {
+      this.assignments = [];
+    } else {
+      this.fetchStudentAssignments();
+      this.fetchAssignments();
+    }
+  }
+
+  toggleTotal() {
+    this.isTotalActive = !this.isTotalActive;
+    if (this.isTotalActive) {
+      this.calculateTotalPoints();
+      this.assignments = [];
+    } else {
+      this.updateAssignments();
+    }
   }
 
   onSubjectChange(): void {
@@ -100,7 +120,7 @@ export class ClassDetailComponent implements OnInit {
 
   calculateCurrentSemester() {
     const today = new Date();
-    const midFebruary = new Date(today.getFullYear(), 1, 15); // 1 is February (months are zero-indexed)
+    const midFebruary = new Date(today.getFullYear(), 2, 15); // 1 is February (months are zero-indexed)
 
     this.currentSemester =
       today > midFebruary ? Semester['1.Semester'] : Semester['2.Semester'];
@@ -114,11 +134,17 @@ export class ClassDetailComponent implements OnInit {
         .subscribe(
           (assignments) => {
             if (assignments && assignments.length > 0) {
-              this.assignments = assignments.filter(
-                (a) =>
-                  a.type === this.currentAssignment &&
-                  a.semster === this.currentSemester
-              );
+              if (this.isTotalActive) {
+                this.assignments = assignments.filter(
+                  (a) => a.semster === this.currentSemester
+                );
+              } else {
+                this.assignments = assignments.filter(
+                  (a) =>
+                    a.type === this.currentAssignment &&
+                    a.semster === this.currentSemester
+                );
+              }
             } else {
               this.assignments = [];
             }
@@ -206,6 +232,14 @@ export class ClassDetailComponent implements OnInit {
   ): void {
     const inputElement = event.target as HTMLInputElement;
     const newPoints = inputElement.valueAsNumber;
+
+    if (newPoints < 0 || newPoints > assignment.reachablePoints) {
+      inputElement.value = this.getPointsForStudentAssignment(
+        student,
+        assignment
+      ).toString();
+      return;
+    }
     const updatePayload = {
       points: newPoints,
       studentFk: student.pkStudent,
@@ -236,5 +270,18 @@ export class ClassDetailComponent implements OnInit {
         'add-assignment',
       ]);
     }
+  }
+
+  calculateTotalPoints() {
+    this.totalPointsByType = [0, 0, 0, 0];
+
+    this.studentAssignments.forEach((studentAssignment) => {
+      const assignmentType = studentAssignment.assignmentFkNavigation.type;
+      const points = studentAssignment.points;
+
+      if (assignmentType !== undefined) {
+        this.totalPointsByType[assignmentType] += points;
+      }
+    });
   }
 }
