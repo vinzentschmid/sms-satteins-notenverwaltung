@@ -21,17 +21,17 @@
         <p>Welcome back! Please login to your account</p>
       </div>
       <div class="formContainer">
-        <!-- In your component .html file -->
         <form (ngSubmit)="onSubmit()">
-          <input type="email" [(ngModel)]="loginData.email" name="email" placeholder="Email">
-          <input type="password" [(ngModel)]="loginData.password" name="password" placeholder="Password">
+          <input type="email" [(ngModel)]="loginData.email" name="email" placeholder="Email"
+                 [class.error-border]="loginError">
+          <input type="password" [(ngModel)]="loginData.password" name="password" placeholder="Password"
+                 [class.error-border]="loginError">
           <button type="submit">Login</button>
         </form>
+        
 
       </div>
-      <div class="buttonContainer">
-
-      </div>
+     
     </div>
 
   </div>

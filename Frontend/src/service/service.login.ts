@@ -7,8 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private loginUrl =
-    'https://restapinotenverwaltung.azurewebsites.net/identity/login';
+  private loginUrl = 'http://localhost:5013/identity/login';
 
   constructor(private http: HttpClient) {}
 

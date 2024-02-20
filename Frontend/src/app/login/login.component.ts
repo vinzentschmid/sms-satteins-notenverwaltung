@@ -15,17 +15,22 @@ export class LoginComponent {
     twoFactorRecoveryCode: '',
   };
 
+  loginError = false; // Fehlerzustand hinzugefügt
+
   // Continued from your component .ts file
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     this.authService.login(this.loginData).subscribe({
-      next: () => {
+      next: (response) => {
+        const token = response.accessToken;
+
+        localStorage.setItem('authToken', token);
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         console.error('Login error:', error);
-        // Handle error response
+        this.loginError = true; // Fehlerzustand setzen, wenn ein Fehler auftritt
       },
     });
   }
