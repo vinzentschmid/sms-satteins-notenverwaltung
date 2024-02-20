@@ -3,30 +3,30 @@ export class Assignment {
   creationDate: Date;
   reachablePoints: number;
   subjectFk: number;
-  type: AssignmentType;
-  semster: Semester;
+  assignmentType: AssignmentType;
+  semester: Semester;
 
   constructor(
     creationDate: Date,
     reachablePoints: number,
     subjectFk: number,
-    type: AssignmentType,
-    semster: Semester,
+    assignmentType: AssignmentType,
+    semester: Semester,
     assignmentPk?: number
   ) {
     this.assignmentPk = assignmentPk;
     this.creationDate = creationDate;
     this.reachablePoints = reachablePoints;
     this.subjectFk = subjectFk;
-    this.type = type;
-    this.semster = semster;
+    this.assignmentType = assignmentType;
+    this.semester = semester;
   }
 }
 export enum AssignmentType {
-  Test,
-  Check,
-  Homework,
-  Framework,
+  Test = 0,
+  Check = 1,
+  Homework = 2,
+  Framework = 3,
 }
 
 export enum Semester {

@@ -12,7 +12,7 @@ public partial class Assignment
 
     public int ReachablePoints { get; set; }
 
-    public int? SubjectFk { get; set; }
+    public int SubjectFk { get; set; }
     
     public EAssignmentType AssignmentType { get; set; }
     

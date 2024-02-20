@@ -12,6 +12,8 @@ public sealed class AssignmentResource
 
     public int ReachablePoints { get; set; }
     
+    public int SubjectFk { get; set; }
+    
     public string AssignmentType { get; set; }
     
     public string Semester { get; set; }

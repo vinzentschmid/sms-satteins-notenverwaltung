@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Class } from 'src/model/model.class';
@@ -29,7 +30,7 @@ export class ClassDetailComponent implements OnInit {
   private pkSubject: number | undefined;
   AssignmentType = AssignmentType;
   isTotalActive = false;
-  totalPointsByType: number[] = [0, 0, 0, 0];
+  totalPoints = 0;
 
   constructor(
     private classService: ClassService,
@@ -78,7 +79,6 @@ export class ClassDetailComponent implements OnInit {
         ? Semester['2.Semester']
         : Semester['1.Semester'];
     this.isEditEnabled = false; // Reset edit mode
-
     this.updateAssignments();
   }
 
@@ -95,12 +95,8 @@ export class ClassDetailComponent implements OnInit {
     this.currentAssignment = assignmentType;
   }
   updateAssignments() {
-    if (this.isTotalActive) {
-      this.assignments = [];
-    } else {
-      this.fetchStudentAssignments();
-      this.fetchAssignments();
-    }
+    this.fetchStudentAssignments();
+    this.fetchAssignments();
   }
 
   toggleTotal() {
@@ -136,13 +132,13 @@ export class ClassDetailComponent implements OnInit {
             if (assignments && assignments.length > 0) {
               if (this.isTotalActive) {
                 this.assignments = assignments.filter(
-                  (a) => a.semster === this.currentSemester
+                  (a) => a.semester === this.currentSemester
                 );
               } else {
                 this.assignments = assignments.filter(
                   (a) =>
-                    a.type === this.currentAssignment &&
-                    a.semster === this.currentSemester
+                    a.assignmentType === this.currentAssignment &&
+                    a.semester === this.currentSemester
                 );
               }
             } else {
@@ -272,16 +268,78 @@ export class ClassDetailComponent implements OnInit {
     }
   }
 
-  calculateTotalPoints() {
-    this.totalPointsByType = [0, 0, 0, 0];
+  totalPointsPerStudent: { [studentId: number]: number } = {};
+  totalPointsByType: {
+    [studentId: number]: { [type in AssignmentType]?: number };
+  } = {};
+  getCurrentSemesterAsString(): string {
+    return this.currentSemester === 0 ? 'FirstSemester' : 'SecondSemester';
+  }
+
+  calculateTotalPoints(): void {
+    this.students?.forEach((student) => {
+      this.totalPointsPerStudent[student.pkStudent] = 0;
+      this.totalPointsByType[student.pkStudent] = {
+        [AssignmentType.Test]: 0,
+        [AssignmentType.Check]: 0,
+        [AssignmentType.Homework]: 0,
+        [AssignmentType.Framework]: 0,
+      };
+    });
 
     this.studentAssignments.forEach((studentAssignment) => {
-      const assignmentType = studentAssignment.assignmentFkNavigation.type;
       const points = studentAssignment.points;
+      const studentId = studentAssignment.studentFkNavigation.pkStudent;
+      const assignmentSemester =
+        studentAssignment.assignmentFkNavigation.semester;
+      const currentSemesterAsString = this.getCurrentSemesterAsString();
+      const assignmentType =
+        studentAssignment.assignmentFkNavigation.assignmentType.toString();
 
-      if (assignmentType !== undefined) {
-        this.totalPointsByType[assignmentType] += points;
+      const assignmentSubject =
+        studentAssignment.assignmentFkNavigation.subjectFk;
+
+      if (
+        currentSemesterAsString === assignmentSemester.toString() &&
+        assignmentSubject === this.pkSubject
+      ) {
+        if (this.totalPointsPerStudent.hasOwnProperty(studentId)) {
+          if (!this.totalPointsByType[studentId]) {
+            this.totalPointsByType[studentId] = {};
+          }
+          this.totalPointsPerStudent[studentId] += points;
+          if (assignmentType === 'Test') {
+            this.totalPointsByType[studentId][AssignmentType.Test] =
+              (this.totalPointsByType[studentId][AssignmentType.Test] ?? 0) +
+              points;
+          } else if (assignmentType === 'Check') {
+            this.totalPointsByType[studentId][AssignmentType.Check] =
+              (this.totalPointsByType[studentId][AssignmentType.Check] ?? 0) +
+              points;
+          } else if (assignmentType === 'Homework') {
+            this.totalPointsByType[studentId][AssignmentType.Homework] =
+              (this.totalPointsByType[studentId][AssignmentType.Homework] ??
+                0) + points;
+          } else {
+            this.totalPointsByType[studentId][AssignmentType.Framework] =
+              (this.totalPointsByType[studentId][AssignmentType.Framework] ??
+                0) + points;
+          }
+        }
       }
     });
+  }
+  getAssignmentTypes(): number[] {
+    return Object.keys(AssignmentType)
+      .filter((key) => !isNaN(Number(key)))
+      .map((key) => Number(key));
+  }
+
+  getPointsForType(studentId: number, type: number): number {
+    const studentPoints = this.totalPointsByType[studentId];
+    if (!studentPoints) return 0;
+
+    const points = studentPoints[type as keyof typeof studentPoints];
+    return points !== undefined ? points : 0;
   }
 }

@@ -152,7 +152,7 @@
             height: 5vh;
             display: flex;
             align-items: center;
-            gap: 200px;
+            gap: 165px;
             padding-left: 35px;
             padding-right: 35px;
             opacity: 0.6;
@@ -160,12 +160,22 @@
                 opacity: 1;
                 color: #348888;
             }
+            .headerColumn {
+              display: flex;
+            }
         }
         .contentTable{
             display: flex;
             flex-direction: column;
             margin-top: 10px;
             gap: 10px;
+            .totalColumn{
+              display: flex;
+              gap: 20px;
+              opacity: 1;
+              color: white;
+              background-color: transparent;
+            }
             .studentColumn{
                 display: flex;
                 flex-direction: row;
