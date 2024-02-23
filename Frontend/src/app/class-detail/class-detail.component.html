@@ -5,9 +5,11 @@
 
 <div id="actionContainer">
   <button (click)="toggleSemester()" id="semesterSwitch"> {{ semesters[currentSemester]  }}</button>
-  <div class="form-check form-switch">
-    <input class="form-check-input" type="checkbox" [(ngModel)]="isEditEnabled" id="flexSwitchCheckDefault">
-    <label class="form-check-label" for="flexSwitchCheckDefault">Edit</label>
+  <div *ngIf="!isTotalActive">
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" [(ngModel)]="isEditEnabled" id="flexSwitchCheckDefault">
+      <label class="form-check-label" for="flexSwitchCheckDefault">Edit</label>
+    </div>
   </div>
 </div>
 <div class="contentContainer">
@@ -49,15 +51,20 @@
           <div>Total</div>
       </div>
     </div>
-   
+
     <div class="contentTable" >
       <div class="studentColumn" *ngFor="let student of students">
         <div class="studentName">{{ student.name }}</div>
         <div class="totalColumn" *ngIf="isTotalActive">
           <div *ngFor="let type of getAssignmentTypes()">
-            {{ getPointsForType(student.pkStudent, type) }} 
+            {{ getPointsForType(student.pkStudent, type) * 100 / getTotalReachablePointsForType(type) }} 
           </div>
           {{ totalPointsPerStudent[student.pkStudent] }}
+
+          <div>
+            <div>
+            </div>
+          </div>
         </div>
         
         <div  class="assignments" *ngFor="let assignment of assignments">

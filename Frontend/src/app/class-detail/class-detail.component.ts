@@ -102,8 +102,9 @@ export class ClassDetailComponent implements OnInit {
   toggleTotal() {
     this.isTotalActive = !this.isTotalActive;
     if (this.isTotalActive) {
-      this.calculateTotalPoints();
       this.assignments = [];
+      this.calculateTotalPoints();
+      this.calculateReachablePointsForType();
     } else {
       this.updateAssignments();
     }
@@ -122,6 +123,8 @@ export class ClassDetailComponent implements OnInit {
       today > midFebruary ? Semester['1.Semester'] : Semester['2.Semester'];
   }
 
+  private allAssignmentsForCurrentSemester: Assignment[] = [];
+
   private fetchAssignments(): void {
     if (this.selectedSubject !== undefined) {
       this.pkSubject = this.selectedSubject;
@@ -129,28 +132,30 @@ export class ClassDetailComponent implements OnInit {
         .getAssignmentsBySubjectId(this.selectedSubject)
         .subscribe(
           (assignments) => {
-            if (assignments && assignments.length > 0) {
-              if (this.isTotalActive) {
-                this.assignments = assignments.filter(
-                  (a) => a.semester === this.currentSemester
+            // Filtere zuerst nach dem aktuellen Semester
+            const assignmentsForCurrentSemester = assignments.filter(
+              (a) => a.semester === this.currentSemester
+            );
+            this.allAssignmentsForCurrentSemester =
+              assignmentsForCurrentSemester;
+
+            this.assignments = this.isTotalActive
+              ? assignmentsForCurrentSemester
+              : assignmentsForCurrentSemester.filter(
+                  (a) => a.assignmentType === this.currentAssignment
                 );
-              } else {
-                this.assignments = assignments.filter(
-                  (a) =>
-                    a.assignmentType === this.currentAssignment &&
-                    a.semester === this.currentSemester
-                );
-              }
-            } else {
-              this.assignments = [];
-            }
           },
-          () => {
+          (error) => {
+            console.error(`Error fetching assignments: ${error}`);
             this.assignments = [];
+            // Setze auch allAssignmentsForCurrentSemester zurück
+            this.allAssignmentsForCurrentSemester = [];
           }
         );
     } else {
       this.assignments = [];
+      // Setze auch allAssignmentsForCurrentSemester zurück
+      this.allAssignmentsForCurrentSemester = [];
     }
   }
 
@@ -272,6 +277,7 @@ export class ClassDetailComponent implements OnInit {
   totalPointsByType: {
     [studentId: number]: { [type in AssignmentType]?: number };
   } = {};
+
   getCurrentSemesterAsString(): string {
     return this.currentSemester === 0 ? 'FirstSemester' : 'SecondSemester';
   }
@@ -329,6 +335,38 @@ export class ClassDetailComponent implements OnInit {
       }
     });
   }
+  // studentassigment --> reachablePoints z.b 10 --> AssignmentType
+  //calculateReachablePointsForType
+
+  totalReachablePointsByType: {
+    [type in AssignmentType]?: number;
+  } = {};
+
+  calculateReachablePointsForType(): void {
+    this.allAssignmentsForCurrentSemester.forEach((studentAssignment) => {
+      const assignmentType = studentAssignment.assignmentType;
+      const reachablePoints = studentAssignment.reachablePoints;
+
+      if (assignmentType === 0) {
+        this.totalReachablePointsByType[AssignmentType.Test] =
+          (this.totalReachablePointsByType[AssignmentType.Test] ?? 0) +
+          reachablePoints;
+      } else if (assignmentType === 1) {
+        this.totalReachablePointsByType[AssignmentType.Check] =
+          (this.totalReachablePointsByType[AssignmentType.Check] ?? 0) +
+          reachablePoints;
+      } else if (assignmentType === 2) {
+        this.totalReachablePointsByType[AssignmentType.Homework] =
+          (this.totalReachablePointsByType[AssignmentType.Homework] ?? 0) +
+          reachablePoints;
+      } else {
+        this.totalReachablePointsByType[AssignmentType.Framework] =
+          (this.totalReachablePointsByType[AssignmentType.Framework] ?? 0) +
+          reachablePoints;
+      }
+    });
+  }
+
   getAssignmentTypes(): number[] {
     return Object.keys(AssignmentType)
       .filter((key) => !isNaN(Number(key)))
@@ -340,6 +378,11 @@ export class ClassDetailComponent implements OnInit {
     if (!studentPoints) return 0;
 
     const points = studentPoints[type as keyof typeof studentPoints];
+    return points !== undefined ? points : 0;
+  }
+
+  getTotalReachablePointsForType(type: AssignmentType): number {
+    const points = this.totalReachablePointsByType[type];
     return points !== undefined ? points : 0;
   }
 }
