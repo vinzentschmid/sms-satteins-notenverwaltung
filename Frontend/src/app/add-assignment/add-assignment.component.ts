@@ -14,7 +14,7 @@ export class AddAssignmentComponent implements OnInit {
   subjectId!: number;
   classId!: number;
   newAssignment: SaveAssignment;
-  assignmentTypes = ['Test', 'Check', 'Homework', 'Framework', 'Total'];
+  assignmentTypes = ['Test', 'Check', 'Homework', 'Framework'];
   semesters = ['FirstSemester', 'SecondSemester'];
 
   constructor(

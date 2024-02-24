@@ -12,8 +12,12 @@
         <a [routerLink]="'/profile'">
           <img [src]="'assets/icons/profile.svg'" alt="Profile Icon" />
         </a>
-        
+
+       
       </div>
+      <a class="logout" [routerLink]="'/login'">
+        <img [src]="'assets/icons/logout.svg'" alt="Profile Icon" />
+      </a>
     </nav>
     <main>
       <router-outlet></router-outlet>

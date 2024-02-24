@@ -1,3 +1,12 @@
+@keyframes rotateCircle {
+    0%, 100% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    50% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+
 .mainFrame {
     height: 100%;
     min-height: 100vh;
@@ -21,14 +30,59 @@
             justify-content: center;
             height: 90vh;
             a{
-                margin-bottom: 2em;
+                margin-bottom: 3em;
+                display: inline-block;
+                position: relative;
+                text-decoration: none;
+                overflow: visible; // Stellt sicher, dass der Kreis nicht abgeschnitten wird
+
+                &:hover::after {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 2.5em; // Größe des Kreises angepasst an das Bild
+                    height: 2.5em; // Größe des Kreises angepasst an das Bild
+                    transform: translate(-50%, -50%);
+                    border-radius: 50%;
+                    border: 2px dashed white; // Farbe des Kreises
+                    animation: rotateCircle 2s infinite linear;
+                    pointer-events: none;
+                  }
                 img{
                     height: 90%;
                     width: 90%;
+                    display: block;
                 }
-            
+                
             }
-           
+            
+        }
+        .logout{
+            align-self: bottom;
+            margin-bottom: 5em;
+            display: inline-block;
+            position: relative;
+            text-decoration: none;
+            overflow: visible; // Stellt sicher, dass der Kreis nicht abgeschnitten wird
+            &:hover::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 2.5em; // Größe des Kreises angepasst an das Bild
+                height: 2.5em; // Größe des Kreises angepasst an das Bild
+                transform: translate(-50%, -50%);
+                border-radius: 50%;
+                border: 2px dashed white; // Farbe des Kreises
+                animation: rotateCircle 2s infinite linear;
+                pointer-events: none;
+              }
+            img{
+                height: 90%;
+                width: 90%;
+                display: block;
+            }
         }
     }
     main{
@@ -37,7 +91,10 @@
         background-color: white;
         border-radius: 20px 0 0 20px;
         min-height: 100vh;
-       
+        display: flex;
+         flex-direction: column;
     }
+   
+  
 
 }

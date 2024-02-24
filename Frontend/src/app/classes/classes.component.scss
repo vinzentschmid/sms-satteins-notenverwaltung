@@ -1,13 +1,11 @@
- .headline{
+.headline{
     font-weight: 500;
     color: #348888;
     font-size: 40px;
     margin-left: 70px;
     margin-top: 70px;
 }
-#classes-list div{
-    margin-left: 70px;
-}
 #classes-list{
-    margin-left: 70px;
+    position: relative;
+    margin-left: 35px;
 }

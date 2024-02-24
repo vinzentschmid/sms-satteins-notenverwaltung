@@ -26,6 +26,7 @@ export class LoginComponent {
         const token = response.accessToken;
 
         localStorage.setItem('authToken', token);
+        localStorage.setItem('email', this.loginData.email);
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {

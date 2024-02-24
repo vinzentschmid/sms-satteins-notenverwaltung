@@ -10,9 +10,9 @@ import { TeacherService } from 'src/service/service.teacher';
 export class DashboardComponent implements OnInit {
   currentDay = '';
 
-  selectedTeacher: Teacher | undefined;
-
   constructor(private teacherService: TeacherService) {}
+
+  userName = '';
 
   ngOnInit() {
     const currentTime = new Date();
@@ -20,14 +20,43 @@ export class DashboardComponent implements OnInit {
       weekday: 'long',
     });
 
-    const teacherId = 1; // Die ID des Lehrers, den Sie abrufen möchten
-    this.teacherService.getTeacherById(teacherId).subscribe(
-      (data) => {
-        this.selectedTeacher = data; // Zuweisung innerhalb von subscribe
-      },
-      (error) => {
-        console.error('Fehler beim Laden des Lehrers', error);
-      }
-    );
+    this.getUserNameByEmail()
+      .then((name) => {
+        this.userName = name;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  getUserNameByEmail(): Promise<string> {
+    const email = localStorage.getItem('email') || '';
+    const emailLowerCase = email.toLowerCase();
+
+    return new Promise((resolve, reject) => {
+      this.teacherService.getTeachers().subscribe({
+        next: (teachers) => {
+          const teacher = teachers.find(
+            (t) => t.email.trim().toLowerCase() === emailLowerCase
+          );
+
+          if (teacher !== undefined) {
+            const namePart = email.split('@')[0];
+            const name = this.capitalizeFirstLetter(namePart.replace('.', ' '));
+            resolve(name);
+          } else {
+            reject('Lehrer nicht gefunden');
+          }
+        },
+        error: (err) => reject(err),
+      });
+    });
+  }
+
+  capitalizeFirstLetter(string: string): string {
+    return string
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   }
 }
