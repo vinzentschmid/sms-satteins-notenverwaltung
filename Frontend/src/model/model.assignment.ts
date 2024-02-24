@@ -23,10 +23,10 @@ export class Assignment {
   }
 }
 export enum AssignmentType {
-  Test = 0,
-  Check = 1,
-  Homework = 2,
-  Framework = 3,
+  Test,
+  Check,
+  Homework,
+  Framework,
 }
 
 export enum Semester {

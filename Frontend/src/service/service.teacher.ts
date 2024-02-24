@@ -21,4 +21,11 @@ export class TeacherService {
       headers: this.authHeaderService.getAuthHeaders(),
     });
   }
+
+  getTeachers(): Observable<Teacher[]> {
+    return this.http.get<Teacher[]>(this.apiUrl, {
+      withCredentials: true,
+      headers: this.authHeaderService.getAuthHeaders(),
+    });
+  }
 }

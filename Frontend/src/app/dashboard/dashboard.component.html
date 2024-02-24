@@ -2,11 +2,12 @@
 
 <div class="welcome-container">
     <div id="welcome-text-container">
-        <div *ngIf="selectedTeacher">
-            <h2>GOOD DAY,&nbsp;</h2><h3>{{ selectedTeacher.name }}</h3>
-        </div>
-        <h3>Have a nice {{ currentDay }}</h3>
-        
+    <div>
+        <h2>GOOD DAY,&nbsp;</h2><h3>{{ userName}}</h3>
+       
+    </div>
+    <h3>Have a nice {{ currentDay }}</h3>
+
     </div>
     <div id="welcome-picture-container">
         <img ngSrc="assets/exploring_man.svg" class="exploring_man" alt="exploring_man" height="368" width="385" loading="lazy">

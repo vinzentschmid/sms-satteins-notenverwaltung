@@ -162,6 +162,10 @@
             }
             .headerColumn {
               display: flex;
+              gap: 3%;
+              div{
+                min-width: 150px;
+              }
             }
         }
         .contentTable{
@@ -171,10 +175,43 @@
             gap: 10px;
             .totalColumn{
               display: flex;
-              gap: 20px;
+              gap: 35%;
               opacity: 1;
               color: white;
               background-color: transparent;
+              align-items: center;
+              div{
+                min-width: 40px;
+                .custom::ng-deep .ng-select-container  {
+                  min-height: 0px;
+                  width: 70px;
+                  background-color: rgba(255, 255, 255, 0);
+                  border: none;
+                  color: #fff;
+                  .ng-value-container{
+                      padding: 0;
+                    .ng-value{
+                      font-size: 1rem;
+                      padding: 0 5px 0 0;
+                    }
+                  }
+                  .ng-clear-wrapper{
+                    display: none;
+                  }
+                  .ng-arrow-wrapper{
+                      .ng-arrow{
+                          border-color: #fff transparent transparent;
+                      }
+                  }
+                  .ng-dropdown-panel, .ng-select-bottom::ng-deep{
+                     border-radius: 10px;
+                     width: 100%;
+                     .ng-dropdown-panel-items{
+                      border-radius: 20px;
+                     }
+                  }
+              }
+              }
             }
             .studentColumn{
                 display: flex;

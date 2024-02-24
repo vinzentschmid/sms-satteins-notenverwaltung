@@ -79,7 +79,14 @@ export class ClassDetailComponent implements OnInit {
         ? Semester['2.Semester']
         : Semester['1.Semester'];
     this.isEditEnabled = false; // Reset edit mode
-    this.updateAssignments();
+
+    if (this.isTotalActive) {
+      this.assignments = [];
+      this.calculateTotalPoints();
+      this.calculateReachablePointsForType();
+    } else {
+      this.updateAssignments();
+    }
   }
 
   toggleAssignmentType(assignmentTypeKey: string) {
@@ -102,8 +109,9 @@ export class ClassDetailComponent implements OnInit {
   toggleTotal() {
     this.isTotalActive = !this.isTotalActive;
     if (this.isTotalActive) {
-      this.calculateTotalPoints();
       this.assignments = [];
+      this.calculateTotalPoints();
+      this.calculateReachablePointsForType();
     } else {
       this.updateAssignments();
     }
@@ -112,6 +120,11 @@ export class ClassDetailComponent implements OnInit {
   onSubjectChange(): void {
     this.isEditEnabled = false; // Reset edit mode
     this.updateAssignments();
+  }
+  isStage = true;
+
+  onStageChange(studentId: number): void {
+    this.getCalculatedGradeForStudent(studentId, this.isStage);
   }
 
   calculateCurrentSemester() {
@@ -122,6 +135,8 @@ export class ClassDetailComponent implements OnInit {
       today > midFebruary ? Semester['1.Semester'] : Semester['2.Semester'];
   }
 
+  private allAssignmentsForCurrentSemester: Assignment[] = [];
+
   private fetchAssignments(): void {
     if (this.selectedSubject !== undefined) {
       this.pkSubject = this.selectedSubject;
@@ -129,28 +144,30 @@ export class ClassDetailComponent implements OnInit {
         .getAssignmentsBySubjectId(this.selectedSubject)
         .subscribe(
           (assignments) => {
-            if (assignments && assignments.length > 0) {
-              if (this.isTotalActive) {
-                this.assignments = assignments.filter(
-                  (a) => a.semester === this.currentSemester
+            // Filtere zuerst nach dem aktuellen Semester
+            const assignmentsForCurrentSemester = assignments.filter(
+              (a) => a.semester === this.currentSemester
+            );
+            this.allAssignmentsForCurrentSemester =
+              assignmentsForCurrentSemester;
+
+            this.assignments = this.isTotalActive
+              ? assignmentsForCurrentSemester
+              : assignmentsForCurrentSemester.filter(
+                  (a) => a.assignmentType === this.currentAssignment
                 );
-              } else {
-                this.assignments = assignments.filter(
-                  (a) =>
-                    a.assignmentType === this.currentAssignment &&
-                    a.semester === this.currentSemester
-                );
-              }
-            } else {
-              this.assignments = [];
-            }
           },
-          () => {
+          (error) => {
+            console.error(`Error fetching assignments: ${error}`);
             this.assignments = [];
+            // Setze auch allAssignmentsForCurrentSemester zurück
+            this.allAssignmentsForCurrentSemester = [];
           }
         );
     } else {
       this.assignments = [];
+      // Setze auch allAssignmentsForCurrentSemester zurück
+      this.allAssignmentsForCurrentSemester = [];
     }
   }
 
@@ -272,6 +289,7 @@ export class ClassDetailComponent implements OnInit {
   totalPointsByType: {
     [studentId: number]: { [type in AssignmentType]?: number };
   } = {};
+
   getCurrentSemesterAsString(): string {
     return this.currentSemester === 0 ? 'FirstSemester' : 'SecondSemester';
   }
@@ -329,6 +347,39 @@ export class ClassDetailComponent implements OnInit {
       }
     });
   }
+  // studentassigment --> reachablePoints z.b 10 --> AssignmentType
+  //calculateReachablePointsForType
+
+  totalReachablePointsByType: {
+    [type in AssignmentType]?: number;
+  } = {};
+
+  calculateReachablePointsForType(): void {
+    this.totalReachablePointsByType = {};
+    this.allAssignmentsForCurrentSemester.forEach((studentAssignment) => {
+      const assignmentType = studentAssignment.assignmentType;
+      const reachablePoints = studentAssignment.reachablePoints;
+
+      if (assignmentType === 0) {
+        this.totalReachablePointsByType[AssignmentType.Test] =
+          (this.totalReachablePointsByType[AssignmentType.Test] ?? 0) +
+          reachablePoints;
+      } else if (assignmentType === 1) {
+        this.totalReachablePointsByType[AssignmentType.Check] =
+          (this.totalReachablePointsByType[AssignmentType.Check] ?? 0) +
+          reachablePoints;
+      } else if (assignmentType === 2) {
+        this.totalReachablePointsByType[AssignmentType.Homework] =
+          (this.totalReachablePointsByType[AssignmentType.Homework] ?? 0) +
+          reachablePoints;
+      } else {
+        this.totalReachablePointsByType[AssignmentType.Framework] =
+          (this.totalReachablePointsByType[AssignmentType.Framework] ?? 0) +
+          reachablePoints;
+      }
+    });
+  }
+
   getAssignmentTypes(): number[] {
     return Object.keys(AssignmentType)
       .filter((key) => !isNaN(Number(key)))
@@ -341,5 +392,97 @@ export class ClassDetailComponent implements OnInit {
 
     const points = studentPoints[type as keyof typeof studentPoints];
     return points !== undefined ? points : 0;
+  }
+
+  getTotalReachablePointsForType(type: AssignmentType): number {
+    const points = this.totalReachablePointsByType[type];
+
+    if (!points) return 0;
+
+    return points !== undefined ? points : 0;
+  }
+
+  getPercentagePointsForStudent(
+    studentId: number,
+    type: AssignmentType
+  ): number {
+    const weights = {
+      [AssignmentType.Check]: 0.25,
+      [AssignmentType.Homework]: 0.25,
+      [AssignmentType.Framework]: 0.1,
+      [AssignmentType.Test]: 0.4,
+    };
+
+    const points = this.getPointsForType(studentId, type);
+    const reachablePoints = this.getTotalReachablePointsForType(type);
+
+    // Check if reachablePoints is 0 to avoid division by zero
+    if (reachablePoints === 0) {
+      return 0;
+    }
+
+    const weight = weights[type];
+    const percentage = ((points * weight) / reachablePoints) * 100;
+
+    // Runde das Ergebnis auf eine Dezimalstelle und wandle es in eine Zahl um
+    return Number(percentage.toFixed(0));
+  }
+
+  getTotalPointsForStudent(studentId: number): number {
+    let totalReachablePoints = 0;
+
+    for (const typeKey in AssignmentType) {
+      const type = AssignmentType[typeKey as keyof typeof AssignmentType];
+      totalReachablePoints += this.getPercentagePointsForStudent(
+        studentId,
+        type
+      );
+    }
+    return totalReachablePoints;
+  }
+
+  getWeightsForType(type: AssignmentType): number {
+    const weights = {
+      [AssignmentType.Check]: 0.25,
+      [AssignmentType.Homework]: 0.25,
+      [AssignmentType.Framework]: 0.1,
+      [AssignmentType.Test]: 0.4,
+    };
+
+    return weights[type];
+  }
+
+  getCalculatedGradeForStudent(studentId: number, flag: boolean): number {
+    const totalPercentage = this.getTotalPointsForStudent(studentId);
+    const gradingKey = this.getGradingKey(flag);
+
+    if (totalPercentage >= gradingKey[0]) {
+      return 1;
+    } else if (totalPercentage >= gradingKey[1]) {
+      return 2;
+    } else if (totalPercentage >= gradingKey[2]) {
+      return 3;
+    } else if (totalPercentage >= gradingKey[3]) {
+      return 4;
+    } else {
+      return 5;
+    }
+  }
+  //points -->
+
+  getGradingKey(flag: boolean): number[] {
+    const gradiantKeySta = {
+      1: 90,
+      2: 80,
+      3: 70,
+      4: 60,
+    };
+    const gradiantKeySt = {
+      1: 70,
+      2: 60,
+      3: 50,
+      4: 35,
+    };
+    return flag ? Object.values(gradiantKeySta) : Object.values(gradiantKeySt);
   }
 }
