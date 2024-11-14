@@ -2,12 +2,13 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.1
--- Dumped by pg_dump version 16.1
+-- Dumped from database version 17.0 (Debian 17.0-1.pgdg120+1)
+-- Dumped by pg_dump version 17.0 (Debian 17.0-1.pgdg120+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -221,7 +222,7 @@ ALTER TABLE public."__EFMigrationsHistory" OWNER TO postgres;
 CREATE TABLE public.assignment (
     assignment_pk integer NOT NULL,
     creation_date date NOT NULL,
-    reachable_points decimal DEFAULT 0 NOT NULL,
+    reachable_points numeric DEFAULT 0 NOT NULL,
     subject_fk integer,
     assignment_type text,
     semester text
@@ -277,7 +278,7 @@ CREATE TABLE public.student_assignment (
     student_assignment_pk integer NOT NULL,
     student_fk integer,
     assignment_fk integer,
-    points decimal
+    points numeric
 );
 
 
@@ -370,6 +371,7 @@ COPY public."AspNetUserTokens" ("UserId", "LoginProvider", "Name", "Value") FROM
 COPY public."AspNetUsers" ("Id", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") FROM stdin;
 7fadb89f-2e68-4103-97cb-2aff6596af48	Vinzent Schmid	VINZENT@TEST.AT	vinzent@test.at	VINZENT@TEST.AT	f	AQAAAAIAAYagAAAAEDo3nhvfZqBB5SzH/Q7K3d/30kliWEF06Q46Tg9xgK2yZWU+aC2JS22Em6XmOqrp8A==	LX6R3WFCC43SOOQFRKTVP2F77WEO2PQA	38e25b65-a69b-481f-b928-552fc40cd11a	\N	f	f	\N	t	0
 a9b6af87-797d-45a9-a595-72cc5bc9fa12	test@test.at	TEST@TEST.AT	test@test.at	TEST@TEST.AT	f	AQAAAAIAAYagAAAAEBeWTsy7wbxIMCuJYajdL440QCLsOIM4D0BWiTcNKxfUC2hpZcx3UeFNqp9Z/m0M2g==	4MKHUTRJ5M3Y2PUWKWPGBWVKIWDI3WVL	61d7c6bb-1240-4d5d-a27c-4ed6d069a191	\N	f	f	\N	t	0
+a0c694a5-515b-4402-b9b8-e35e02ba8f23	monika.getzner@sms-satteins.at	MONIKA.GETZNER@SMS-SATTEINS.AT	monika.getzner@sms-satteins.at	MONIKA.GETZNER@SMS-SATTEINS.AT	f	AQAAAAIAAYagAAAAEP5exM+Te8PdfDTJ9wHBgqokEEZAWrfp+iQdrrpFRvPuFc4nl+k8f/FVlCMeHohJjw==	V2NN2NONIMAVFIYGWVQVMQTWA6RXQHEZ	992d4586-037f-45e7-9968-79a2379c3df7	\N	f	f	\N	t	0
 \.
 
 
@@ -387,6 +389,7 @@ COPY public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") FROM stdin
 --
 
 COPY public.assignment (assignment_pk, creation_date, reachable_points, subject_fk, assignment_type, semester) FROM stdin;
+1	2024-11-14	20.2	1	Test	FirstSemester
 \.
 
 
