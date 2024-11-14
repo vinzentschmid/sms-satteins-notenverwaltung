@@ -6,7 +6,7 @@ public class StudentAssignmentResource
 {
     public int StudentAssignmentPk { get; set; }
 
-    public int Points { get; set; }
+    public decimal Points { get; set; }
 
     public  AssignmentResource AssignmentFkNavigation { get; set; }
 

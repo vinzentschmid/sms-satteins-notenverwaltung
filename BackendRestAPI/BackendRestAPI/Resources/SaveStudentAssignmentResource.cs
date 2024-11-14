@@ -2,7 +2,7 @@ namespace BackendRestAPI.Resources;
 
 public class SaveStudentAssignmentResource
 {
-    public int Points { get; set; }
+    public decimal Points { get; set; }
     
     public int StudentFk { get; set; }
 

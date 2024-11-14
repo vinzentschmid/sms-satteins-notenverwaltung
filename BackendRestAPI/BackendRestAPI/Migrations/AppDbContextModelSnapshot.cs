@@ -40,7 +40,7 @@ namespace BackendRestAPI.Migrations
                         .HasColumnName("creation_date");
 
                     b.Property<int>("ReachablePoints")
-                        .HasColumnType("integer")
+                        .HasColumnType("decimal")
                         .HasColumnName("reachable_points");
 
                     b.Property<string>("Semester")
@@ -205,7 +205,7 @@ namespace BackendRestAPI.Migrations
                         .HasColumnName("assignment_fk");
 
                     b.Property<int>("Points")
-                        .HasColumnType("integer")
+                        .HasColumnType("decimal")
                         .HasColumnName("points");
 
                     b.Property<int>("StudentFk")

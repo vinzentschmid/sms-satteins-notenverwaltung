@@ -221,7 +221,7 @@ ALTER TABLE public."__EFMigrationsHistory" OWNER TO postgres;
 CREATE TABLE public.assignment (
     assignment_pk integer NOT NULL,
     creation_date date NOT NULL,
-    reachable_points integer DEFAULT 0 NOT NULL,
+    reachable_points decimal DEFAULT 0 NOT NULL,
     subject_fk integer,
     assignment_type text,
     semester text
@@ -277,7 +277,7 @@ CREATE TABLE public.student_assignment (
     student_assignment_pk integer NOT NULL,
     student_fk integer,
     assignment_fk integer,
-    points integer
+    points decimal
 );
 
 
@@ -387,10 +387,6 @@ COPY public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") FROM stdin
 --
 
 COPY public.assignment (assignment_pk, creation_date, reachable_points, subject_fk, assignment_type, semester) FROM stdin;
-1	2024-01-06	100	1	Test	SecondSemester
-2	2024-01-06	100	2	Test	SecondSemester
-3	2024-01-16	50	2	Test	SecondSemester
-4	2024-01-20	25	1	Check	SecondSemester
 \.
 
 
@@ -399,8 +395,7 @@ COPY public.assignment (assignment_pk, creation_date, reachable_points, subject_
 --
 
 COPY public.class_table (pk_class, name, year) FROM stdin;
-1	1A	2023-12-16
-2	2A	2022-12-17
+1	1A	2024-12-16
 \.
 
 
@@ -418,7 +413,7 @@ COPY public.class_teacher (class_teacher_pk, teacher_fk, class_fk) FROM stdin;
 
 COPY public.student (pk_student, name, fk_class) FROM stdin;
 1	John Doe	1
-2	Max Mustermann	2
+2	Max Mustermann	1
 3	Test Testermann	1
 4	Jakob	1
 \.
@@ -429,22 +424,6 @@ COPY public.student (pk_student, name, fk_class) FROM stdin;
 --
 
 COPY public.student_assignment (student_assignment_pk, student_fk, assignment_fk, points) FROM stdin;
-2	2	1	0
-5	1	2	0
-7	3	2	0
-8	4	2	0
-3	3	1	20
-4	4	1	30
-1	1	1	90
-9	1	3	0
-10	2	3	0
-11	3	3	0
-12	4	3	0
-6	2	2	535
-13	1	4	0
-14	2	4	0
-15	3	4	0
-16	4	4	0
 \.
 
 
@@ -454,8 +433,6 @@ COPY public.student_assignment (student_assignment_pk, student_fk, assignment_fk
 
 COPY public.subject (pk_subject, name, class_fk) FROM stdin;
 1	Englisch	1
-2	Math	2
-3	Deutsch	1
 \.
 
 

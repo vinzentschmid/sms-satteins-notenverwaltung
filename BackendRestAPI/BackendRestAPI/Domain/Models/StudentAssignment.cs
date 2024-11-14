@@ -12,7 +12,7 @@ public partial class StudentAssignment
 
     public int AssignmentFk { get; set; }
 
-    public int Points { get; set; }
+    public decimal Points { get; set; }
 
     public virtual Assignment AssignmentFkNavigation { get; set; }
 

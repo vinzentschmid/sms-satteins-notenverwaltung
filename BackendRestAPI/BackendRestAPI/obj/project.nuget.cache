@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5s4FZ8gfbKBLDBJ0+29249+syEvL/PQxh8Ce6a09QI/MHwZJXnPnj+spJExBnbo1KoYu8NELBqI7UhXoCJigQQ==",
+  "dgSpecHash": "Y5Tn31ymhGo=",
   "success": true,
-  "projectFilePath": "/Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/BackendRestAPI.csproj",
+  "projectFilePath": "/Users/vinzentschmid/Documents/sms-satteins-notenverwaltung/BackendRestAPI/BackendRestAPI/BackendRestAPI.csproj",
   "expectedPackageFiles": [
     "/Users/vinzentschmid/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/Users/vinzentschmid/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

@@ -407,8 +407,8 @@ export class ClassDetailComponent implements OnInit {
     type: AssignmentType
   ): number {
     const weights = {
-      [AssignmentType.Check]: 0.25,
-      [AssignmentType.Homework]: 0.25,
+      [AssignmentType.Check]: 0.3,
+      [AssignmentType.Homework]: 0.2,
       [AssignmentType.Framework]: 0.1,
       [AssignmentType.Test]: 0.4,
     };
@@ -443,8 +443,8 @@ export class ClassDetailComponent implements OnInit {
 
   getWeightsForType(type: AssignmentType): number {
     const weights = {
-      [AssignmentType.Check]: 0.25,
-      [AssignmentType.Homework]: 0.25,
+      [AssignmentType.Check]: 0.3,
+      [AssignmentType.Homework]: 0.2,
       [AssignmentType.Framework]: 0.1,
       [AssignmentType.Test]: 0.4,
     };

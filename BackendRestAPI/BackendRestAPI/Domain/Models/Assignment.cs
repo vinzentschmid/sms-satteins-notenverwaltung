@@ -10,7 +10,7 @@ public partial class Assignment
 
     public DateOnly CreationDate { get; set; }
 
-    public int ReachablePoints { get; set; }
+    public decimal ReachablePoints { get; set; }
 
     public int SubjectFk { get; set; }
     

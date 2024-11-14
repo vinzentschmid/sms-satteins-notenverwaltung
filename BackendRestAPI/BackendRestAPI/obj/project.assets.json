@@ -8825,11 +8825,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/BackendRestAPI.csproj",
+      "projectUniqueName": "/Users/vinzentschmid/Documents/sms-satteins-notenverwaltung/BackendRestAPI/BackendRestAPI/BackendRestAPI.csproj",
       "projectName": "BackendRestAPI",
-      "projectPath": "/Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/BackendRestAPI.csproj",
+      "projectPath": "/Users/vinzentschmid/Documents/sms-satteins-notenverwaltung/BackendRestAPI/BackendRestAPI/BackendRestAPI.csproj",
       "packagesPath": "/Users/vinzentschmid/.nuget/packages/",
-      "outputPath": "/Users/vinzentschmid/Documents/Projektarbeit/BackendRestAPI/BackendRestAPI/obj/",
+      "outputPath": "/Users/vinzentschmid/Documents/sms-satteins-notenverwaltung/BackendRestAPI/BackendRestAPI/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/vinzentschmid/.nuget/NuGet/NuGet.Config"
@@ -8850,6 +8850,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -8936,7 +8941,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/Users/vinzentschmid/.dotnet/sdk/8.0.303/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
