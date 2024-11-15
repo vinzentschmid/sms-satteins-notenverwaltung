@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/cc3d6411-fd94-40a2-9ab0-e669dd086b30/resourceGroups/notenverwaltung/providers/Microsoft.Web/sites/smssatteins",
+    "appService.deploySubpath": "Frontend/dist"
+}
