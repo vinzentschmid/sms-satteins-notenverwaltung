@@ -13,7 +13,7 @@ import { AuthHeaderService } from './service.authheader';
   providedIn: 'root',
 })
 export class AssignmentService {
-  private apiUrl = 'http://localhost:5013/api/Assignments';
+  private apiUrl = 'https://restapinotenverwaltung.azurewebsites.net/api/Assignments';
 
   constructor(
     private http: HttpClient,

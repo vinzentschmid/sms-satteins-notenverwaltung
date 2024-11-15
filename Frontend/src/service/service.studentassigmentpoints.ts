@@ -8,8 +8,8 @@ import { AuthHeaderService } from './service.authheader';
   providedIn: 'root',
 })
 export class StudentAssigmentPointsService {
-  private apiUrl = 'http://localhost:5013/api/Students/Assignments';
-  private apiUrl2 = 'http://localhost:5013/api/Assignments';
+  private apiUrl = 'https://restapinotenverwaltung.azurewebsites.net/api/Students/Assignments';
+  private apiUrl2 = 'https://restapinotenverwaltung.azurewebsites.net/api/Assignments';
 
   constructor(
     private http: HttpClient,

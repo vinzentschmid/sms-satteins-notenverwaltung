@@ -8,7 +8,7 @@ import { AuthHeaderService } from './service.authheader';
   providedIn: 'root',
 })
 export class SubjectService {
-  private apiUrl = 'http://localhost:5013/api/Subjects';
+  private apiUrl = 'https://restapinotenverwaltung.azurewebsites.net/api/Subjects';
 
   constructor(
     private http: HttpClient,

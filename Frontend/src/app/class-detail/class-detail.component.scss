@@ -1,3 +1,4 @@
+
 #headlineContainer{
     h2{
         margin: 0;
@@ -143,6 +144,9 @@
         }
     }
     .table{
+        //enable scrolling
+        overflow-y: auto;       
+        scrollbar-color: #FA7F08 #348888;
         margin-top: 35px;
         margin-left: 35px;
         width: 96.5%;
